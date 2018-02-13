@@ -1,4 +1,4 @@
-from polymatch import PolymorphicMatcher, pattern_registry
+from polymatch import PolymorphicMatcher
 
 
 class ExactMatcher(PolymorphicMatcher):
@@ -17,6 +17,10 @@ class ExactMatcher(PolymorphicMatcher):
     def match_text(self, pattern, text):
         return text == pattern
 
+    @classmethod
+    def get_type(cls):
+        return "exact"
+
 
 class ContainsMatcher(PolymorphicMatcher):
     def compile_pattern(self, raw_pattern):
@@ -34,6 +38,6 @@ class ContainsMatcher(PolymorphicMatcher):
     def match_text(self, pattern, text):
         return text in pattern
 
-
-pattern_registry.register('exact', ExactMatcher)
-pattern_registry.register('contains', ContainsMatcher)
+    @classmethod
+    def get_type(cls):
+        return "contains"

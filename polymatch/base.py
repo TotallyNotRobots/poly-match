@@ -21,7 +21,7 @@ class PolymorphicMatcher(metaclass=ABCMeta):
         self._case_action = case_action
         self._invert = invert
 
-        self._compile_func, self._match_func = self.__case_functions[self._case_action]
+        self._compile_func, self._match_func = self._get_case_functions()
 
         if self._case_action is CaseAction.CASEFOLD and self._str_type is bytes:
             raise TypeError("Case-folding is not supported with bytes patterns")
@@ -99,9 +99,23 @@ class PolymorphicMatcher(metaclass=ABCMeta):
     def match_text_cf(self, pattern, text):
         return self.match_text(pattern, text.casefold())
 
-    __case_functions = {
-        CaseAction.NONE: (compile_pattern, match_text),
-        CaseAction.CASESENSITIVE: (compile_pattern_cs, match_text_cs),
-        CaseAction.CASEINSENSITIVE: (compile_pattern_ci, match_text_ci),
-        CaseAction.CASEFOLD: (compile_pattern_cf, match_text_cf),
-    }
+    def _get_case_functions(self):
+        suffix = self._case_action.value[1]
+
+        if suffix:
+            suffix = '_' + suffix
+
+        return getattr(self, "compile_pattern" + suffix), getattr(self, "match_text" + suffix)
+
+    @classmethod
+    @abstractmethod
+    def get_type(cls):
+        raise NotImplementedError
+
+    def __str__(self):
+        return "{}:{}:{}".format(self.get_type(), self._case_action.value[1], self._raw_pattern)
+
+    def __repr__(self):
+        return "{}(pattern={!r}, case_action={!r}, invert={!r})".format(
+            type(self).__name__, self._raw_pattern, self._case_action, self._invert
+        )

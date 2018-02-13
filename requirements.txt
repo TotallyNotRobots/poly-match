@@ -1,1 +1,3 @@
 regex
+pytest
+pytest-travis-fold

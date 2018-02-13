@@ -1,4 +1,4 @@
-from polymatch import PolymorphicMatcher, pattern_registry
+from polymatch import PolymorphicMatcher
 
 try:
     import regex
@@ -46,5 +46,6 @@ class RegexMatcher(PolymorphicMatcher):
     def match_text_cs(self, pattern, text):
         return self.match_text(pattern, text)
 
-
-pattern_registry.register('regex', RegexMatcher)
+    @classmethod
+    def get_type(cls):
+        return "regex"

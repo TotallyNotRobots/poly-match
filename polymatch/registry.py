@@ -2,6 +2,9 @@ from collections import OrderedDict
 
 from polymatch.base import PolymorphicMatcher, CaseAction
 from polymatch.error import DuplicateMatcherRegistrationError, NoSuchMatcherError, NoMatchersAvailable
+from polymatch.matchers.glob import GlobMatcher
+from polymatch.matchers.regex import RegexMatcher
+from polymatch.matchers.standard import ExactMatcher, ContainsMatcher
 
 
 def _opt_split(text, delim=':', empty="", invchar='~'):
@@ -41,13 +44,14 @@ class PatternMatcherRegistry:
     def __init__(self):
         self._matchers = OrderedDict()
 
-    def register(self, name, cls):
+    def register(self, cls):
+        name = cls.get_type()
         if name in self._matchers:
             raise DuplicateMatcherRegistrationError(name)
 
-        if not isinstance(cls, PolymorphicMatcher):
+        if not issubclass(cls, PolymorphicMatcher):
             raise TypeError(
-                "Pattern matcher must be of type {!r} not {!r}".format(PolymorphicMatcher.__name__, type(cls).__name__)
+                "Pattern matcher must be of type {!r} not {!r}".format(PolymorphicMatcher.__name__, cls.__name__)
             )
 
         self._matchers[name] = cls
@@ -66,7 +70,7 @@ class PatternMatcherRegistry:
 
     def get_default_matcher(self):
         if self._matchers:
-            return self._matchers.values()[0]
+            return list(self._matchers.values())[0]
         else:
             raise NoMatchersAvailable()
 
@@ -79,7 +83,7 @@ class PatternMatcherRegistry:
 
         case_action = None
         for action in CaseAction:
-            if action[1] == opts:
+            if action.value[1] == opts:
                 case_action = action
                 break
 
@@ -90,3 +94,8 @@ class PatternMatcherRegistry:
 
 
 pattern_registry = PatternMatcherRegistry()
+
+pattern_registry.register(ExactMatcher)
+pattern_registry.register(ContainsMatcher)
+pattern_registry.register(GlobMatcher)
+pattern_registry.register(RegexMatcher)
