@@ -1,5 +1,3 @@
-from polymatch import pattern_registry
-
 data = (
     (r"regex::\btest\b", "test", True),
     (r"regex::\btest\b", "test1", False),
@@ -8,6 +6,7 @@ data = (
 
 
 def test_patterns():
+    from polymatch import pattern_registry
     for pattern, text, result in data:
         matcher = pattern_registry.pattern_from_string(pattern)
         matcher.compile()
