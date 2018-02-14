@@ -138,7 +138,8 @@ class PolymorphicMatcher(metaclass=ABCMeta):
         )
 
     def __getstate__(self):
-        return self._raw_pattern, self._case_action, self._invert
+        return self._raw_pattern, self._case_action, self._invert, self._compiled_pattern, self._str_type
 
     def __setstate__(self, state):
-        self._raw_pattern, self._case_action, self._invert = state
+        self._raw_pattern, self._case_action, self._invert, self._compiled_pattern, self._str_type = state
+        self._compile_func, self._match_func = self._get_case_functions()
