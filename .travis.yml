@@ -13,6 +13,7 @@ python:
   - "nightly"
   - "pypy2.7"
   - "pypy3.5"
+cache: pip
 install:
   - pip install -Ur requirements.txt
 script:
