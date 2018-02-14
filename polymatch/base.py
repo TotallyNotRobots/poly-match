@@ -74,14 +74,17 @@ class PolymorphicMatcher(metaclass=ABCMeta):
     def compile_pattern(self, raw_pattern):
         raise NotImplementedError
 
+    @abstractmethod
     def compile_pattern_cs(self, raw_pattern):
         """Matchers should override this to compile their pattern with case-sensitive options"""
         raise NotImplementedError
 
+    @abstractmethod
     def compile_pattern_ci(self, raw_pattern):
         """Matchers should override this to compile their pattern with case-insensitive options"""
         raise NotImplementedError
 
+    @abstractmethod
     def compile_pattern_cf(self, raw_pattern):
         """Matchers should override this to compile their pattern with case-folding options"""
         raise NotImplementedError
@@ -113,9 +116,17 @@ class PolymorphicMatcher(metaclass=ABCMeta):
         raise NotImplementedError
 
     def __str__(self):
-        return "{}:{}:{}".format(self.get_type(), self._case_action.value[1], self._raw_pattern)
+        return "{}{}:{}:{}".format(
+            '~' if self._invert else '', self.get_type(), self._case_action.value[1], self._raw_pattern
+        )
 
     def __repr__(self):
         return "{}(pattern={!r}, case_action={!r}, invert={!r})".format(
             type(self).__name__, self._raw_pattern, self._case_action, self._invert
         )
+
+    def __getstate__(self):
+        return self._raw_pattern, self._case_action, self._invert
+
+    def __setstate__(self, state):
+        self._raw_pattern, self._case_action, self._invert = state
