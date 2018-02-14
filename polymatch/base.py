@@ -115,6 +115,18 @@ class PolymorphicMatcher(metaclass=ABCMeta):
     def get_type(cls):
         raise NotImplementedError
 
+    @property
+    def pattern(self):
+        return self._raw_pattern
+
+    @property
+    def case_action(self):
+        return self._case_action
+
+    @property
+    def inverted(self):
+        return self._invert
+
     def __str__(self):
         return "{}{}:{}:{}".format(
             '~' if self._invert else '', self.get_type(), self._case_action.value[1], self._raw_pattern
