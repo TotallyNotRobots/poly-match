@@ -11,3 +11,10 @@ def test_patterns():
         matcher = pattern_registry.pattern_from_string(pattern)
         matcher.compile()
         assert bool(matcher == text) is result
+
+
+def test_invert():
+    from polymatch import pattern_registry
+    pattern = pattern_registry.pattern_from_string("~regex::beep")
+    pattern.compile()
+    assert pattern.inverted
