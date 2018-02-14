@@ -3,8 +3,6 @@ from enum import Enum
 
 from polymatch.error import PatternCompileError, PatternNotCompiledError, PatternTextTypeMismatchError
 
-_empty = object()
-
 
 class CaseAction(Enum):
     NONE = 'none', ''  # Use whatever the pattern's default is
@@ -14,10 +12,12 @@ class CaseAction(Enum):
 
 
 class PolymorphicMatcher(metaclass=ABCMeta):
+    _empty = object()
+
     def __init__(self, pattern, case_action=CaseAction.NONE, invert=False):
         self._raw_pattern = pattern
         self._str_type = type(pattern)
-        self._compiled_pattern = _empty
+        self._compiled_pattern = self._empty
         self._case_action = case_action
         self._invert = invert
 
@@ -68,7 +68,7 @@ class PolymorphicMatcher(metaclass=ABCMeta):
         return out
 
     def is_compiled(self):
-        return self._compiled_pattern is not _empty
+        return self._compiled_pattern is not self._empty
 
     @abstractmethod
     def compile_pattern(self, raw_pattern):
@@ -138,8 +138,8 @@ class PolymorphicMatcher(metaclass=ABCMeta):
         )
 
     def __getstate__(self):
-        return self._raw_pattern, self._case_action, self._invert, self._compiled_pattern, self._str_type
+        return self._raw_pattern, self._case_action, self._invert, self._compiled_pattern, self._str_type, self._empty
 
     def __setstate__(self, state):
-        self._raw_pattern, self._case_action, self._invert, self._compiled_pattern, self._str_type = state
+        self._raw_pattern, self._case_action, self._invert, self._compiled_pattern, self._str_type, self._empty = state
         self._compile_func, self._match_func = self._get_case_functions()
