@@ -4,7 +4,7 @@ import polymatch
 
 setup(
     name='polymatch',
-    version='.'.join(polymatch.__version__),
+    version='.'.join(map(str, polymatch.__version__)),
     python_requires=">=3.4",
     description="A polymorphic pattern matching library for Python",
     url='https://github.com/TotallyNotRobots/polymatch',
