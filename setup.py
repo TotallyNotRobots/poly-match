@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='polymatch',
-    version='0.1.1',
+    version='0.1.2',
     python_requires=">=3.4",
     description="A polymorphic pattern matching library for Python",
     url='https://github.com/TotallyNotRobots/polymatch',
