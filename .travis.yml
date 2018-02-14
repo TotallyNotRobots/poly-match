@@ -1,19 +1,29 @@
 language: python
 python:
-  - "3.4"
-  - "3.5"
-  - "3.5-dev"  # 3.5 development branch
-  - "3.6"
-  - "3.6-dev"  # 3.6 development branch
-  - "3.7-dev"  # 3.7 development branch
-  - "3.8-dev"  # 3.8 development branch
-  - "nightly"
-  - "pypy2.7"
-  - "pypy3.5"
+- '3.4'
+- '3.5'
+- 3.5-dev
+- '3.6'
+- 3.6-dev
+- 3.7-dev
+- 3.8-dev
+- nightly
+- pypy2.7
+- pypy3.5
 cache: pip
 install:
-  - pip install -Ur requirements.txt
+- pip install -Ur requirements.txt
 script:
-  - py.test
+- py.test
 env:
-  - PYTHONPATH=.
+- PYTHONPATH=.
+deploy:
+  provider: pypi
+  user: linuxdaemon
+  password:
+    secure: qLzT+/ve5trceZ+ftnDB+XMQ4kygoeh5Ci0Rz6LCTzq5TTcvb2kAo7+/A0NDQ1aEhS7crmTayEbayPxIp2ihx+mGjNPgNL5nQRpu89Sjt+OeJ7rZDNSmpTXdqVrFXe88SY8Jqv99PjhVfRUAfuY86AMx72VPftHAstaVDt+PLb08LlNBPdfVyUROY1smYn8SYPgRvBbELU04G9lw/wr8YC5268v6JosxqieG8lDB4BYN94+CqJUSkDFombFmTjrgMkGInHa4ojXLz51shsW+3WAhxbVAlKHb0lFyIUjfV7r02tcnqZiUvoMhWfK3MBWnt1UBEmgei2X4IMDzWgG+eSNWifLlreFhXgjVYvF9d9RiTRg2Hm56us1pqhLoXsojFo15sofrhMPUYf3v9f2jlETJ8UB5uYz8xUsPu4/aKxHZgSkLL+dQ3N0n+zBKnMMM0dy8ms+oCLYfHdshH2H35MNkDip0s9L81/wOaR19aJnusWixEwf5l+ra9WesN1l4XJaupjuXKpD+bZqczKcu8YK2X2E6ouF//HD+BpTaBAyQqtM31SpP/QM3UshH4FFUDhvjgDvVKOZaFWHWcWgJXr1MHKYn/zepVOLsy/aRZWTK2SvdUxTl+0OKAhRw+5CT37oVL7HbZMWvAyD9tkDX7II082PkBOhXYpyuXKUr7aE=
+  distributions: sdist bdist_wheel
+  on:
+    tags: true
+    repo: TotallyNotRobots/poly-match
+    python: '3.6'
