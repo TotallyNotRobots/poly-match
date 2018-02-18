@@ -29,7 +29,7 @@ class RegexMatcher(PolymorphicMatcher):
         if not regex:
             raise NotImplementedError
 
-        return self.compile_pattern(raw_pattern, regex.FULLCASE)
+        return self.compile_pattern(raw_pattern, regex.FULLCASE | IGNORECASE)
 
     def match_text(self, pattern, text):
         return bool(pattern.match(text))

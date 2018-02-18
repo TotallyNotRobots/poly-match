@@ -2,6 +2,7 @@ data = (
     (r"regex::\btest\b", "test", True),
     (r"regex::\btest\b", "test1", False),
     (r"regex::\btest\b", "test response", True),
+    (r"regex:cf:\btest\b", "TEST", True),
 )
 
 
