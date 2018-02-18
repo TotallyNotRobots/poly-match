@@ -1,6 +1,7 @@
 from abc import ABCMeta, abstractmethod
 from enum import Enum
 
+import polymatch
 from polymatch.error import PatternCompileError, PatternNotCompiledError, PatternTextTypeMismatchError
 
 
@@ -138,8 +139,17 @@ class PolymorphicMatcher(metaclass=ABCMeta):
         )
 
     def __getstate__(self):
-        return self._raw_pattern, self._case_action, self._invert, self._compiled_pattern, self._str_type, self._empty
+        return polymatch.__version__, self._raw_pattern, self._case_action, self._invert, self._compiled_pattern, \
+               self._str_type, self._empty
 
     def __setstate__(self, state):
+        if len(state) > 6:
+            version, *state = state
+        else:
+            version = (0, 0, 0)
+
         self._raw_pattern, self._case_action, self._invert, self._compiled_pattern, self._str_type, self._empty = state
         self._compile_func, self._match_func = self._get_case_functions()
+
+        if version != polymatch.__version__ and self.is_compiled():
+            self.compile()

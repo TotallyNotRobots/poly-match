@@ -65,3 +65,21 @@ def test_properties(pattern, pickle_proto):
 
     for _pat in cycle_pickle(C(pat), pickle_proto).patterns:
         assert not _pat.inverted
+
+
+def test_version_checks(pattern, pickle_proto):
+    from polymatch import pattern_registry
+    import polymatch
+    pat = pattern_registry.pattern_from_string(pattern)
+    pat.compile()
+
+    assert pat.is_compiled()
+
+    data = pickle.dumps(pat, pickle_proto)
+
+    # Change version
+    polymatch.__version__ = polymatch.__version__[:2] + (polymatch.__version__[2] + 1,)
+
+    new_pat = pickle.loads(data)
+
+    assert new_pat.is_compiled()
