@@ -11,6 +11,9 @@ except ImportError as e:
         if not isinstance(e, _exc):
             raise
 
+    if e.name != 'regex':
+        raise
+
     regex = None
 
     import re
