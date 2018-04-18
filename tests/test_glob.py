@@ -2,6 +2,7 @@ data = (
     ("glob::*", "", True),
     ("glob::*?", "", False),
     ("glob::*?", "a", True),
+    ("glob:cf:*!*@thing", "itd!a@thing", True),
 )
 
 
