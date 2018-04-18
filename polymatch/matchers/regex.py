@@ -2,7 +2,15 @@ from polymatch import PolymorphicMatcher
 
 try:
     import regex
-except ImportError:
+except ImportError as e:
+    try:
+        _exc = globals()['ModuleNotFoundError']
+    except LookupError:
+        pass
+    else:
+        if not isinstance(e, _exc):
+            raise
+
     regex = None
 
     import re
