@@ -2,6 +2,8 @@ data = (
     ("exact::a", "a", True),
     ("exact::b", "n", False),
     ("exact::cc", "cc", True),
+    ("contains::air", "i", False),
+    ("contains::i", "air", True),
 )
 
 
