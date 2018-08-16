@@ -36,7 +36,7 @@ class ContainsMatcher(PolymorphicMatcher):
         return raw_pattern.casefold()
 
     def match_text(self, pattern, text):
-        return text in pattern
+        return pattern in text
 
     @classmethod
     def get_type(cls):
