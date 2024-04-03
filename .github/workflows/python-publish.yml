@@ -1,9 +1,6 @@
 name: Publish Python 🐍 distribution 📦 to PyPI
 
-on:
-  push:
-    branches: [main]
-    tags: ["v.*"]
+on: [push]
 
 jobs:
   build:
@@ -17,7 +14,7 @@ jobs:
         with:
           python-version: "3.x"
 
-      - name: Install pypa/build
+      - name: Install hatch
         run: >-
           python3 -m pip install --upgrade hatch --user
 
