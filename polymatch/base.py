@@ -146,7 +146,7 @@ class PolymorphicMatcher(metaclass=ABCMeta):
         if len(state) > 6:
             version, *state = state
         else:
-            version = (0, 0, 0)
+            version = "0.0.0"
 
         self._raw_pattern, self._case_action, self._invert, self._compiled_pattern, self._str_type, self._empty = state
         self._compile_func, self._match_func = self._get_case_functions()

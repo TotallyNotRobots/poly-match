@@ -78,7 +78,9 @@ def test_version_checks(pattern, pickle_proto):
     data = pickle.dumps(pat, pickle_proto)
 
     # Change version
-    polymatch.__version__ = polymatch.__version__[:2] + (polymatch.__version__[2] + 1,)
+    v = polymatch.__version__.split('.')
+    v[-1] = str(int(v[-1]) + 1)
+    polymatch.__version__ = '.'.join(v)
 
     new_pat = pickle.loads(data)
 
