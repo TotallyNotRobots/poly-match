@@ -1,4 +1,13 @@
-__all__ = ("PatternCompileError","PatternNotCompiledError", "PatternTextTypeMismatchError", "DuplicateMatcherRegistrationError", "NoSuchMatcherError", "NoMatchersAvailable")
+__all__ = (
+    "PatternCompileError",
+    "PatternNotCompiledError",
+    "PatternTextTypeMismatchError",
+    "DuplicateMatcherRegistrationError",
+    "NoSuchMatcherError",
+    "NoMatchersAvailable",
+)
+
+
 class PatternCompileError(ValueError):
     pass
 
@@ -10,13 +19,15 @@ class PatternNotCompiledError(ValueError):
 class PatternTextTypeMismatchError(TypeError):
     def __init__(self, pattern_type, text_type):
         super().__init__(
-            "Pattern of type {!r} can not match text of type {!r}".format(pattern_type.__name__, text_type.__name__)
+            "Pattern of type {!r} can not match text of type {!r}".format(
+                pattern_type.__name__, text_type.__name__
+            )
         )
 
 
 class DuplicateMatcherRegistrationError(ValueError):
     def __init__(self, name):
-        super().__init__("Attempted o register a duplicate matcher {!r}".format(name))
+        super().__init__(f"Attempted o register a duplicate matcher {name!r}")
 
 
 class NoSuchMatcherError(LookupError):

@@ -1,16 +1,20 @@
 from collections import OrderedDict
 
-from polymatch.base import PolymorphicMatcher, CaseAction
-from polymatch.error import DuplicateMatcherRegistrationError, NoSuchMatcherError, NoMatchersAvailable
+from polymatch.base import CaseAction, PolymorphicMatcher
+from polymatch.error import (
+    DuplicateMatcherRegistrationError,
+    NoMatchersAvailable,
+    NoSuchMatcherError,
+)
 from polymatch.matchers.glob import GlobMatcher
 from polymatch.matchers.regex import RegexMatcher
-from polymatch.matchers.standard import ExactMatcher, ContainsMatcher
+from polymatch.matchers.standard import ContainsMatcher, ExactMatcher
 
 
-def _opt_split(text, delim=':', empty="", invchar='~'):
+def _opt_split(text, delim=":", empty="", invchar="~"):
     if text.startswith(invchar):
         invert = True
-        text = text[len(invchar):]
+        text = text[len(invchar) :]
     else:
         invert = False
 
@@ -34,10 +38,12 @@ def _parse_pattern_string(text):
 
         return invert, name, opts, pattern
     elif isinstance(text, bytes):
-        invert, name, opts, pattern = _opt_split(text, b':', b'', b'~')
+        invert, name, opts, pattern = _opt_split(text, b":", b"", b"~")
         return invert, name.decode(), opts.decode(), pattern
     else:
-        raise TypeError("Unable to parse pattern string of type {!r}".format(type(text).__name__))
+        raise TypeError(
+            f"Unable to parse pattern string of type {type(text).__name__!r}"
+        )
 
 
 class PatternMatcherRegistry:
@@ -51,7 +57,9 @@ class PatternMatcherRegistry:
 
         if not issubclass(cls, PolymorphicMatcher):
             raise TypeError(
-                "Pattern matcher must be of type {!r} not {!r}".format(PolymorphicMatcher.__name__, cls.__name__)
+                "Pattern matcher must be of type {!r} not {!r}".format(
+                    PolymorphicMatcher.__name__, cls.__name__
+                )
             )
 
         self._matchers[name] = cls
@@ -88,7 +96,9 @@ class PatternMatcherRegistry:
                 break
 
         if case_action is None:
-            raise LookupError("Unable to find CaseAction for options: {!r}".format(opts))
+            raise LookupError(
+                f"Unable to find CaseAction for options: {opts!r}"
+            )
 
         return match_cls(pattern, case_action, invert)
 

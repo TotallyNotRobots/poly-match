@@ -4,14 +4,14 @@ try:
     import regex
 except ImportError as e:
     try:
-        _exc = globals()['ModuleNotFoundError']
+        _exc = globals()["ModuleNotFoundError"]
     except LookupError:
         pass
     else:
         if not isinstance(e, _exc):
             raise
 
-    if e.name != 'regex':
+    if e.name != "regex":
         raise
 
     regex = None

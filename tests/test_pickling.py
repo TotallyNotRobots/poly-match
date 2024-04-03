@@ -14,11 +14,13 @@ class C:
 
 
 def pytest_generate_tests(metafunc):
-    if 'pattern' in metafunc.fixturenames:
-        metafunc.parametrize('pattern', patterns)
+    if "pattern" in metafunc.fixturenames:
+        metafunc.parametrize("pattern", patterns)
 
-    if 'pickle_proto' in metafunc.fixturenames:
-        metafunc.parametrize('pickle_proto', list(range(pickle.HIGHEST_PROTOCOL + 1)))
+    if "pickle_proto" in metafunc.fixturenames:
+        metafunc.parametrize(
+            "pickle_proto", list(range(pickle.HIGHEST_PROTOCOL + 1))
+        )
 
 
 def cycle_pickle(obj, proto):
@@ -27,6 +29,7 @@ def cycle_pickle(obj, proto):
 
 def test_compile_state(pattern, pickle_proto):
     from polymatch import pattern_registry
+
     compiled_pattern = pattern_registry.pattern_from_string(pattern)
     compiled_pattern.compile()
 
@@ -36,7 +39,9 @@ def test_compile_state(pattern, pickle_proto):
 
     assert not uncompiled_pattern.is_compiled()
 
-    pat1, pat2 = cycle_pickle((compiled_pattern, uncompiled_pattern), pickle_proto)
+    pat1, pat2 = cycle_pickle(
+        (compiled_pattern, uncompiled_pattern), pickle_proto
+    )
 
     assert pat1.is_compiled() is compiled_pattern.is_compiled()
 
@@ -45,10 +50,11 @@ def test_compile_state(pattern, pickle_proto):
 
 def test_properties(pattern, pickle_proto):
     from polymatch import pattern_registry
+
     pat = pattern_registry.pattern_from_string(pattern)
     pat.compile()
 
-    inv_pat = pattern_registry.pattern_from_string('~' + pattern)
+    inv_pat = pattern_registry.pattern_from_string("~" + pattern)
     inv_pat.compile()
 
     assert not pat.inverted
@@ -68,8 +74,9 @@ def test_properties(pattern, pickle_proto):
 
 
 def test_version_checks(pattern, pickle_proto):
-    from polymatch import pattern_registry
     import polymatch
+    from polymatch import pattern_registry
+
     pat = pattern_registry.pattern_from_string(pattern)
     pat.compile()
 
@@ -78,9 +85,9 @@ def test_version_checks(pattern, pickle_proto):
     data = pickle.dumps(pat, pickle_proto)
 
     # Change version
-    v = polymatch.__version__.split('.')
+    v = polymatch.__version__.split(".")
     v[-1] = str(int(v[-1]) + 1)
-    polymatch.__version__ = '.'.join(v)
+    polymatch.__version__ = ".".join(v)
 
     new_pat = pickle.loads(data)
 

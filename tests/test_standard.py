@@ -9,6 +9,7 @@ data = (
 
 def test_patterns():
     from polymatch import pattern_registry
+
     for pattern, text, result in data:
         matcher = pattern_registry.pattern_from_string(pattern)
         matcher.compile()
@@ -17,6 +18,7 @@ def test_patterns():
 
 def test_invert():
     from polymatch import pattern_registry
+
     pattern = pattern_registry.pattern_from_string("~exact::beep")
     pattern.compile()
     assert pattern.inverted

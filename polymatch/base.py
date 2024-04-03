@@ -2,14 +2,18 @@ from abc import ABCMeta, abstractmethod
 from enum import Enum
 
 import polymatch
-from polymatch.error import PatternCompileError, PatternNotCompiledError, PatternTextTypeMismatchError
+from polymatch.error import (
+    PatternCompileError,
+    PatternNotCompiledError,
+    PatternTextTypeMismatchError,
+)
 
 
 class CaseAction(Enum):
-    NONE = 'none', ''  # Use whatever the pattern's default is
-    CASESENSITIVE = 'case-sensitive', 'cs'  # Fore case sensitivity
-    CASEINSENSITIVE = 'case-insensitive', 'ci'  # Force case insensitivity
-    CASEFOLD = 'casefold', 'cf'  # Force case-folded comparison
+    NONE = "none", ""  # Use whatever the pattern's default is
+    CASESENSITIVE = "case-sensitive", "cs"  # Fore case sensitivity
+    CASEINSENSITIVE = "case-insensitive", "ci"  # Force case insensitivity
+    CASEFOLD = "casefold", "cf"  # Force case-folded comparison
 
 
 class PolymorphicMatcher(metaclass=ABCMeta):
@@ -39,7 +43,9 @@ class PolymorphicMatcher(metaclass=ABCMeta):
         try:
             self._compiled_pattern = self._compile_func(self._raw_pattern)
         except Exception as e:
-            raise PatternCompileError("Failed to compile pattern {!r}".format(self._raw_pattern)) from e
+            raise PatternCompileError(
+                f"Failed to compile pattern {self._raw_pattern!r}"
+            ) from e
 
     def __eq__(self, other):
         if isinstance(other, self._str_type):
@@ -107,9 +113,11 @@ class PolymorphicMatcher(metaclass=ABCMeta):
         suffix = self._case_action.value[1]
 
         if suffix:
-            suffix = '_' + suffix
+            suffix = "_" + suffix
 
-        return getattr(self, "compile_pattern" + suffix), getattr(self, "match_text" + suffix)
+        return getattr(self, "compile_pattern" + suffix), getattr(
+            self, "match_text" + suffix
+        )
 
     @classmethod
     @abstractmethod
@@ -130,17 +138,30 @@ class PolymorphicMatcher(metaclass=ABCMeta):
 
     def __str__(self):
         return "{}{}:{}:{}".format(
-            '~' if self._invert else '', self.get_type(), self._case_action.value[1], self._raw_pattern
+            "~" if self._invert else "",
+            self.get_type(),
+            self._case_action.value[1],
+            self._raw_pattern,
         )
 
     def __repr__(self):
         return "{}(pattern={!r}, case_action={!r}, invert={!r})".format(
-            type(self).__name__, self._raw_pattern, self._case_action, self._invert
+            type(self).__name__,
+            self._raw_pattern,
+            self._case_action,
+            self._invert,
         )
 
     def __getstate__(self):
-        return polymatch.__version__, self._raw_pattern, self._case_action, self._invert, self._compiled_pattern, \
-               self._str_type, self._empty
+        return (
+            polymatch.__version__,
+            self._raw_pattern,
+            self._case_action,
+            self._invert,
+            self._compiled_pattern,
+            self._str_type,
+            self._empty,
+        )
 
     def __setstate__(self, state):
         if len(state) > 6:
@@ -148,7 +169,14 @@ class PolymorphicMatcher(metaclass=ABCMeta):
         else:
             version = "0.0.0"
 
-        self._raw_pattern, self._case_action, self._invert, self._compiled_pattern, self._str_type, self._empty = state
+        (
+            self._raw_pattern,
+            self._case_action,
+            self._invert,
+            self._compiled_pattern,
+            self._str_type,
+            self._empty,
+        ) = state
         self._compile_func, self._match_func = self._get_case_functions()
 
         if version != polymatch.__version__ and self.is_compiled():
