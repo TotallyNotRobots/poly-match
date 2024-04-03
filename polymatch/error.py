@@ -1,3 +1,4 @@
+__all__ = ("PatternCompileError","PatternNotCompiledError", "PatternTextTypeMismatchError", "DuplicateMatcherRegistrationError", "NoSuchMatcherError", "NoMatchersAvailable")
 class PatternCompileError(ValueError):
     pass
 
