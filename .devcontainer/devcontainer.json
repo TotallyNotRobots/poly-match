@@ -34,17 +34,22 @@
                 "EditorConfig.EditorConfig",
                 "GitHub.vscode-pull-request-github",
                 "github.vscode-github-actions",
-                "redhat.vscode-yaml"
+                "redhat.vscode-yaml",
+                "ms-python.black-formatter",
+                "ms-python.isort"
             ],
             "settings": {
-                "python.pythonPath": "~/.virtualenvs/polymatch/bin/python",
+                "python.defaultInterpreterPath": "~/.virtualenvs/polymatch/bin/python",
                 "python.testing.pytestArgs": ["--no-cov"],
                 "terminal.integrated.profiles.linux": {
                     "zsh": {
                         "path": "/usr/bin/zsh"
                     }
                 },
-                "terminal.integrated.defaultProfile.linux": "zsh"
+                "terminal.integrated.defaultProfile.linux": "zsh",
+                "[python]": {
+                    "editor.defaultFormatter": "ms-python.python"
+                }
             }
         }
     }

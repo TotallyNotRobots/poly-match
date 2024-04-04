@@ -1,43 +1,53 @@
+from typing import AnyStr
+
 from polymatch import PolymorphicMatcher
 
 
-class ExactMatcher(PolymorphicMatcher):
-    def compile_pattern(self, raw_pattern):
+class ExactMatcher(PolymorphicMatcher[AnyStr, AnyStr]):
+    def compile_pattern(self, raw_pattern: AnyStr) -> AnyStr:
         return raw_pattern
 
-    def compile_pattern_cs(self, raw_pattern):
+    def compile_pattern_cs(self, raw_pattern: AnyStr) -> AnyStr:
         return raw_pattern
 
-    def compile_pattern_ci(self, raw_pattern):
+    def compile_pattern_ci(self, raw_pattern: AnyStr) -> AnyStr:
         return raw_pattern.lower()
 
-    def compile_pattern_cf(self, raw_pattern):
-        return raw_pattern.casefold()
+    def compile_pattern_cf(self, raw_pattern: AnyStr) -> AnyStr:
+        if isinstance(raw_pattern, str):
+            return raw_pattern.casefold()
 
-    def match_text(self, pattern, text):
+        msg = "Casefold is not supported on bytes patterns"
+        raise TypeError(msg)
+
+    def match_text(self, pattern: AnyStr, text: AnyStr) -> bool:
         return text == pattern
 
     @classmethod
-    def get_type(cls):
+    def get_type(cls) -> str:
         return "exact"
 
 
-class ContainsMatcher(PolymorphicMatcher):
-    def compile_pattern(self, raw_pattern):
+class ContainsMatcher(PolymorphicMatcher[AnyStr, AnyStr]):
+    def compile_pattern(self, raw_pattern: AnyStr) -> AnyStr:
         return raw_pattern
 
-    def compile_pattern_cs(self, raw_pattern):
+    def compile_pattern_cs(self, raw_pattern: AnyStr) -> AnyStr:
         return raw_pattern
 
-    def compile_pattern_ci(self, raw_pattern):
+    def compile_pattern_ci(self, raw_pattern: AnyStr) -> AnyStr:
         return raw_pattern.lower()
 
-    def compile_pattern_cf(self, raw_pattern):
+    def compile_pattern_cf(self, raw_pattern: AnyStr) -> AnyStr:
+        if isinstance(raw_pattern, bytes):
+            msg = "Casefold is not supported on bytes patterns"
+            raise TypeError(msg)
+
         return raw_pattern.casefold()
 
-    def match_text(self, pattern, text):
+    def match_text(self, pattern: AnyStr, text: AnyStr) -> bool:
         return pattern in text
 
     @classmethod
-    def get_type(cls):
+    def get_type(cls) -> str:
         return "contains"

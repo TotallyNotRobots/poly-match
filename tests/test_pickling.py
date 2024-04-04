@@ -1,35 +1,33 @@
+import itertools
 import pickle
+from typing import Any, TypeVar, cast
 
-patterns = (
-    "regex::test",
-    "exact::test",
-    "contains:cf:test",
-    "glob::beep",
-)
+import pytest
+
+import polymatch
+from polymatch import pattern_registry
+from polymatch.base import PolymorphicMatcher
+
+patterns = ("regex::test", "exact::test", "contains:cf:test", "glob::beep")
 
 
 class C:
-    def __init__(self, pat):
+    def __init__(self, pat: PolymorphicMatcher[Any, Any]) -> None:
         self.patterns = [pat]
 
 
-def pytest_generate_tests(metafunc):
-    if "pattern" in metafunc.fixturenames:
-        metafunc.parametrize("pattern", patterns)
-
-    if "pickle_proto" in metafunc.fixturenames:
-        metafunc.parametrize(
-            "pickle_proto", list(range(pickle.HIGHEST_PROTOCOL + 1))
-        )
+T = TypeVar("T")
 
 
-def cycle_pickle(obj, proto):
-    return pickle.loads(pickle.dumps(obj, proto))
+def cycle_pickle(obj: T, proto: int) -> T:
+    return cast(T, pickle.loads(pickle.dumps(obj, proto)))
 
 
-def test_compile_state(pattern, pickle_proto):
-    from polymatch import pattern_registry
-
+@pytest.mark.parametrize(
+    ("pattern", "pickle_proto"),
+    itertools.product(patterns, range(pickle.HIGHEST_PROTOCOL + 1)),
+)
+def test_compile_state(pattern: str, pickle_proto: int) -> None:
     compiled_pattern = pattern_registry.pattern_from_string(pattern)
     compiled_pattern.compile()
 
@@ -39,18 +37,18 @@ def test_compile_state(pattern, pickle_proto):
 
     assert not uncompiled_pattern.is_compiled()
 
-    pat1, pat2 = cycle_pickle(
-        (compiled_pattern, uncompiled_pattern), pickle_proto
-    )
+    pat1, pat2 = cycle_pickle((compiled_pattern, uncompiled_pattern), pickle_proto)
 
     assert pat1.is_compiled() is compiled_pattern.is_compiled()
 
     assert pat2.is_compiled() is uncompiled_pattern.is_compiled()
 
 
-def test_properties(pattern, pickle_proto):
-    from polymatch import pattern_registry
-
+@pytest.mark.parametrize(
+    ("pattern", "pickle_proto"),
+    itertools.product(patterns, range(pickle.HIGHEST_PROTOCOL + 1)),
+)
+def test_properties(pattern: str, pickle_proto: int) -> None:
     pat = pattern_registry.pattern_from_string(pattern)
     pat.compile()
 
@@ -73,10 +71,11 @@ def test_properties(pattern, pickle_proto):
         assert not _pat.inverted
 
 
-def test_version_checks(pattern, pickle_proto):
-    import polymatch
-    from polymatch import pattern_registry
-
+@pytest.mark.parametrize(
+    ("pattern", "pickle_proto"),
+    itertools.product(patterns, range(pickle.HIGHEST_PROTOCOL + 1)),
+)
+def test_version_checks(pattern: str, pickle_proto: int) -> None:
     pat = pattern_registry.pattern_from_string(pattern)
     pat.compile()
 

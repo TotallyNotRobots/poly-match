@@ -21,10 +21,7 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
 ]
-dependencies = []
-
-[project.optional-dependencies]
-regex = ['regex']
+dependencies = ["typing-extensions", "regex"]
 
 [project.urls]
 Homepage = "https://github.com/TotallyNotRobots/polymatch"
@@ -36,8 +33,13 @@ path = "polymatch/__init__.py"
 requires = ["hatch-containers"]
 
 [tool.hatch.envs.default]
-dependencies = ["coverage[toml]>=6.5", "pytest>=6.0", "pre-commit", "mypy>=1.8"]
-features = ["regex"]
+dependencies = [
+    "coverage[toml]>=6.5",
+    "pytest>=6.0",
+    "pre-commit",
+    "mypy>=1.8",
+    "types-regex",
+]
 
 [tool.hatch.envs.default.scripts]
 test = "pytest"
@@ -64,19 +66,19 @@ python = ["3.8", "3.9", "3.10", "3.11", "3.12"]
 
 [tool.isort]
 profile = "black"
-line_length = 80
+line_length = 88
 include_trailing_comma = true
 use_parentheses = true
 known_first_party = ["polymatch"]
 float_to_top = true
 
 [tool.black]
-line-length = 80
+line-length = 88
 target-version = ["py38"]
 include = '\.pyi?$'
 
 [tool.ruff]
-line-length = 80
+line-length = 88
 target-version = 'py38'
 
 [tool.ruff.format]
@@ -86,7 +88,15 @@ skip-magic-trailing-comma = true
 
 [tool.ruff.lint]
 ignore-init-module-imports = false
-extend-safe-fixes = ["EM101", 'EM102', "TCH001", "SIM117", "SIM108", "ANN201"]
+extend-safe-fixes = [
+    "EM101",
+    "EM102",
+    "EM103",
+    "TCH001",
+    "SIM117",
+    "SIM108",
+    "ANN201",
+]
 ignore = [
     "D",
     "TRY003", # TODO(aspen): Switch to custom exceptions
@@ -103,6 +113,7 @@ select = ["ALL"]
 "tests/*.py" = [
     "PLR2004", # Allow "magic values" in tests -aspen
     "S101",    # Allow asserts in tests
+    "S301",    # Allow pickle in tests
     "SIM201",  # We need to test weird comparison operators
     "SIM202",  # We need to test weird comparison operstors
     "SIM300",  # We need to test both forward and reverse comparisons
@@ -161,6 +172,7 @@ exclude_lines = [
     "raise AssertionError",
     "raise NotImplementedError",
     'if __name__ == .__main__.:',
+    'if TYPE_CHECKING:',
 ]
 
 [tool.coverage.run]
