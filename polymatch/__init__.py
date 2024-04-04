@@ -9,7 +9,7 @@ from polymatch.error import (
 )
 from polymatch.registry import pattern_registry
 
-__version__ = "0.2.0"
+__version__ = "0.3.0"
 
 __all__ = [
     "PolymorphicMatcher",
