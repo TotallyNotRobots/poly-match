@@ -48,9 +48,13 @@ def _parse_pattern_string(text: AnyStr) -> Tuple[bool, str, str, AnyStr]:
     raise TypeError(msg)
 
 
+_Matcher = PolymorphicMatcher[Any, Any]
+_MatcherCls = Type[_Matcher]
+
+
 class PatternMatcherRegistry:
     def __init__(self) -> None:
-        self._matchers: Dict[str, Type[PolymorphicMatcher[Any, Any]]] = OrderedDict()
+        self._matchers: Dict[str, _MatcherCls] = OrderedDict()
 
     def register(self, cls: Type[Any]) -> None:
         if not issubclass(cls, PolymorphicMatcher):
@@ -68,24 +72,26 @@ class PatternMatcherRegistry:
     def remove(self, name: str) -> None:
         del self._matchers[name]
 
-    def __getitem__(self, item: str) -> Type[PolymorphicMatcher[Any, Any]]:
+    def __getitem__(self, item: str) -> _MatcherCls:
         return self.get_matcher(item)
 
-    def get_matcher(self, name: str) -> Type[PolymorphicMatcher[Any, Any]]:
+    def get_matcher(self, name: str) -> _MatcherCls:
         try:
             return self._matchers[name]
         except LookupError as e:
             raise NoSuchMatcherError(name) from e
 
-    def get_default_matcher(self) -> Type[PolymorphicMatcher[Any, Any]]:
+    def get_default_matcher(self) -> _MatcherCls:
         if self._matchers:
             return next(iter(self._matchers.values()))
 
         raise NoMatchersAvailableError
 
-    def pattern_from_string(self, text: AnyStr) -> PolymorphicMatcher[Any, Any]:
+    def pattern_from_string(self, text: AnyStr) -> _Matcher:
         invert, name, opts, pattern = _parse_pattern_string(text)
-        match_cls = self.get_default_matcher() if not name else self.get_matcher(name)
+        match_cls = (
+            self.get_default_matcher() if not name else self.get_matcher(name)
+        )
 
         case_action: Optional[CaseAction] = None
         for action in CaseAction:

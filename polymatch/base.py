@@ -1,6 +1,15 @@
 from abc import ABCMeta, abstractmethod
 from enum import Enum
-from typing import AnyStr, Callable, Generic, Optional, Tuple, Type, TypeVar
+from typing import (
+    AnyStr,
+    Callable,
+    Generic,
+    Optional,
+    Tuple,
+    Type,
+    TypeVar,
+    cast,
+)
 
 import polymatch
 from polymatch.error import (
@@ -27,7 +36,9 @@ TUPLE_V2 = Tuple[
 CompileFunc = Callable[[AnyStr], AnyPattern]
 MatchFunc = Callable[[AnyPattern, AnyStr], bool]
 
-FuncTuple = Tuple[CompileFunc[AnyStr, AnyPattern], MatchFunc[AnyPattern, AnyStr]]
+FuncTuple = Tuple[
+    CompileFunc[AnyStr, AnyPattern], MatchFunc[AnyPattern, AnyStr]
+]
 
 
 class PolymorphicMatcher(Generic[AnyStr, AnyPattern], metaclass=ABCMeta):
@@ -143,11 +154,16 @@ class PolymorphicMatcher(Generic[AnyStr, AnyPattern], metaclass=ABCMeta):
         suffix = self.case_action.value[1]
 
         if suffix:
-            suffix = "_" + suffix
+            suffix = f"_{suffix}"
 
-        return getattr(self, "compile_pattern" + suffix), getattr(
-            self, "match_text" + suffix
+        comp_func = cast(
+            CompileFunc[AnyStr, AnyPattern],
+            getattr(self, f"compile_pattern{suffix}"),
         )
+        match_func = cast(
+            MatchFunc[AnyPattern, AnyStr], getattr(self, f"match_text{suffix}")
+        )
+        return comp_func, match_func
 
     @classmethod
     @abstractmethod
@@ -177,7 +193,9 @@ class PolymorphicMatcher(Generic[AnyStr, AnyPattern], metaclass=ABCMeta):
 
         return (
             "{}{}:{}:".format(
-                "~" if self.inverted else "", self.get_type(), self.case_action.value[1]
+                "~" if self.inverted else "",
+                self.get_type(),
+                self.case_action.value[1],
             )
         ).encode() + self.pattern
 

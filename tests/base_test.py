@@ -2,7 +2,10 @@ import pytest
 
 from polymatch import pattern_registry
 from polymatch.base import CaseAction
-from polymatch.error import PatternNotCompiledError, PatternTextTypeMismatchError
+from polymatch.error import (
+    PatternNotCompiledError,
+    PatternTextTypeMismatchError,
+)
 from polymatch.matchers.standard import ExactMatcher
 
 

@@ -37,7 +37,9 @@ def test_compile_state(pattern: str, pickle_proto: int) -> None:
 
     assert not uncompiled_pattern.is_compiled()
 
-    pat1, pat2 = cycle_pickle((compiled_pattern, uncompiled_pattern), pickle_proto)
+    pat1, pat2 = cycle_pickle(
+        (compiled_pattern, uncompiled_pattern), pickle_proto
+    )
 
     assert pat1.is_compiled() is compiled_pattern.is_compiled()
 
@@ -52,7 +54,7 @@ def test_properties(pattern: str, pickle_proto: int) -> None:
     pat = pattern_registry.pattern_from_string(pattern)
     pat.compile()
 
-    inv_pat = pattern_registry.pattern_from_string("~" + pattern)
+    inv_pat = pattern_registry.pattern_from_string(f"~{pattern}")
     inv_pat.compile()
 
     assert not pat.inverted

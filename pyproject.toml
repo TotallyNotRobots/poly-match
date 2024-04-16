@@ -1,5 +1,5 @@
 [build-system]
-requires = ["hatchling"]
+requires = ["hatchling", "hatch-vcs"]
 build-backend = "hatchling.build"
 
 [project]
@@ -9,7 +9,7 @@ description = "A polymorphic pattern matching library for Python"
 readme = "README.md"
 license = "MIT"
 requires-python = ">=3.8"
-authors = [{ name = "linuxdaemon", email = "linuxdaemon@snoonet.org" }]
+authors = [{ name = "linuxdaemon", email = "linuxdaemon.irc@gmail.com" }]
 keywords = ["library", "pattern-matching", "utility", "regex"]
 classifiers = [
     "Development Status :: 3 - Alpha",
@@ -27,7 +27,16 @@ dependencies = ["typing-extensions", "regex"]
 Homepage = "https://github.com/TotallyNotRobots/polymatch"
 
 [tool.hatch.version]
-path = "polymatch/__init__.py"
+source = "vcs"
+
+[tool.hatch.build.targets.sdist]
+exclude = ["/.github"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["polymatch"]
+
+[tool.hatch.build.hooks.vcs]
+version-file = "polymatch/_version.py"
 
 [tool.hatch.env]
 requires = ["hatch-containers"]
@@ -52,7 +61,7 @@ cov-report = [
 cov = ["- coverage erase", "test-cov", "cov-report"]
 cov-all = ["- coverage erase", "hatch run testall:test-cov", "cov-report"]
 
-setup-pre-commit = "python3 -m pre_commit install --install-hooks"
+setup-pre-commit = "python3 -m pre_commit install --install-hooks -t commit-msg -t pre-push -t pre-commit"
 setup-dev = ["setup-pre-commit"]
 
 pre-commit = "python3 -m pre_commit run {args:--all}"
@@ -66,19 +75,19 @@ python = ["3.8", "3.9", "3.10", "3.11", "3.12"]
 
 [tool.isort]
 profile = "black"
-line_length = 88
+line_length = 80
 include_trailing_comma = true
 use_parentheses = true
 known_first_party = ["polymatch"]
 float_to_top = true
 
 [tool.black]
-line-length = 88
+line-length = 80
 target-version = ["py38"]
 include = '\.pyi?$'
 
 [tool.ruff]
-line-length = 88
+line-length = 80
 target-version = 'py38'
 
 [tool.ruff.format]
@@ -92,7 +101,10 @@ extend-safe-fixes = [
     "EM101",
     "EM102",
     "EM103",
+    "FLY002",
     "TCH001",
+    "TCH002",
+    "TRY400",
     "SIM117",
     "SIM108",
     "ANN201",
@@ -117,7 +129,7 @@ select = ["ALL"]
     "SIM201",  # We need to test weird comparison operators
     "SIM202",  # We need to test weird comparison operstors
     "SIM300",  # We need to test both forward and reverse comparisons
-    "FBT001",  # Boolean paramters are fine for test cases
+    "FBT001",  # Boolean parameters are fine for test cases
 ]
 
 [tool.ruff.lint.pycodestyle]
@@ -129,13 +141,17 @@ split-on-trailing-comma = false
 [tool.ruff.lint.pydocstyle]
 convention = "pep257"
 
+[tool.flynt]
+aggressive = true
+transform-joins = true
+transform-concats = true
+
 [tool.mypy]
 namespace_packages = true
 python_version = "3.8"
 warn_unused_configs = true
 strict = true
 strict_optional = true
-ignore_missing_imports = true
 check_untyped_defs = true
 show_error_codes = true
 warn_unused_ignores = true
@@ -150,6 +166,7 @@ extra_checks = true
 warn_unreachable = true
 warn_return_any = true
 warn_no_return = true
+incremental = false
 enable_error_code = [
     "redundant-self",
     "redundant-expr",
@@ -157,7 +174,6 @@ enable_error_code = [
     "truthy-bool",
     "truthy-iterable",
     "ignore-without-code",
-    "unused-awaitable",
 ]
 
 [tool.pytest.ini_options]
@@ -171,10 +187,18 @@ exclude_lines = [
     "pragma: no cover",
     "raise AssertionError",
     "raise NotImplementedError",
-    'if __name__ == .__main__.:',
-    'if TYPE_CHECKING:',
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
 ]
 
 [tool.coverage.run]
 branch = true
 relative_files = true
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+tag_format = "v$version"
+version_scheme = "semver"
+version_provider = "scm"
+update_changelog_on_bump = true
+major_version_zero = true

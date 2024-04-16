@@ -36,7 +36,9 @@ def test_parse() -> None:
 
 
 def test_parse_error_bad_type() -> None:
-    with pytest.raises(TypeError, match="Unable to parse pattern string of type 'int'"):
+    with pytest.raises(
+        TypeError, match="Unable to parse pattern string of type 'int'"
+    ):
         pattern_registry.pattern_from_string(27)  # type: ignore[type-var]
 
 
