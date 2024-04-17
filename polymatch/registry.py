@@ -72,9 +72,6 @@ class PatternMatcherRegistry:
     def remove(self, name: str) -> None:
         del self._matchers[name]
 
-    def __getitem__(self, item: str) -> _MatcherCls:
-        return self.get_matcher(item)
-
     def get_matcher(self, name: str) -> _MatcherCls:
         try:
             return self._matchers[name]
@@ -104,6 +101,9 @@ class PatternMatcherRegistry:
             raise LookupError(msg)
 
         return match_cls(pattern, case_action, invert=invert)
+
+    def __getitem__(self, item: str) -> _MatcherCls:
+        return self.get_matcher(item)
 
 
 pattern_registry = PatternMatcherRegistry()

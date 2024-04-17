@@ -44,6 +44,23 @@ FuncTuple = Tuple[
 class PolymorphicMatcher(Generic[AnyStr, AnyPattern], metaclass=ABCMeta):
     _empty = object()
 
+    def _get_case_functions(
+        self,
+    ) -> Tuple[CompileFunc[AnyStr, AnyPattern], MatchFunc[AnyPattern, AnyStr]]:
+        suffix = self.case_action.value[1]
+
+        if suffix:
+            suffix = f"_{suffix}"
+
+        comp_func = cast(
+            CompileFunc[AnyStr, AnyPattern],
+            getattr(self, f"compile_pattern{suffix}"),
+        )
+        match_func = cast(
+            MatchFunc[AnyPattern, AnyStr], getattr(self, f"match_text{suffix}")
+        )
+        return comp_func, match_func
+
     def __init__(
         self,
         pattern: AnyStr,
@@ -80,18 +97,6 @@ class PolymorphicMatcher(Generic[AnyStr, AnyPattern], metaclass=ABCMeta):
         except Exception as e:  # noqa: BLE001
             msg = f"Failed to compile pattern {self.pattern!r}"
             raise PatternCompileError(msg) from e
-
-    def __eq__(self, other: object) -> bool:
-        if isinstance(other, self._str_type):
-            return self.match(other)
-
-        return NotImplemented
-
-    def __ne__(self, other: object) -> bool:
-        if isinstance(other, self._str_type):
-            return not self.match(other)
-
-        return NotImplemented
 
     def match(self, text: AnyStr) -> bool:
         if not isinstance(text, self._str_type):
@@ -148,23 +153,6 @@ class PolymorphicMatcher(Generic[AnyStr, AnyPattern], metaclass=ABCMeta):
 
         return self.match_text(pattern, text.casefold())
 
-    def _get_case_functions(
-        self,
-    ) -> Tuple[CompileFunc[AnyStr, AnyPattern], MatchFunc[AnyPattern, AnyStr]]:
-        suffix = self.case_action.value[1]
-
-        if suffix:
-            suffix = f"_{suffix}"
-
-        comp_func = cast(
-            CompileFunc[AnyStr, AnyPattern],
-            getattr(self, f"compile_pattern{suffix}"),
-        )
-        match_func = cast(
-            MatchFunc[AnyPattern, AnyStr], getattr(self, f"match_text{suffix}")
-        )
-        return comp_func, match_func
-
     @classmethod
     @abstractmethod
     def get_type(cls) -> str:
@@ -199,17 +187,17 @@ class PolymorphicMatcher(Generic[AnyStr, AnyPattern], metaclass=ABCMeta):
             )
         ).encode() + self.pattern
 
-    def __str__(self) -> str:
-        res = self.to_string()
-        if isinstance(res, str):
-            return res
+    def __eq__(self, other: object) -> bool:
+        if isinstance(other, self._str_type):
+            return self.match(other)
 
-        return res.decode()
+        return NotImplemented
 
-    def __repr__(self) -> str:
-        return "{}(pattern={!r}, case_action={}, invert={!r})".format(
-            type(self).__name__, self.pattern, self.case_action, self.inverted
-        )
+    def __ne__(self, other: object) -> bool:
+        if isinstance(other, self._str_type):
+            return not self.match(other)
+
+        return NotImplemented
 
     def __getstate__(self) -> TUPLE_V2[AnyStr, AnyPattern]:
         return (
@@ -241,3 +229,15 @@ class PolymorphicMatcher(Generic[AnyStr, AnyPattern], metaclass=ABCMeta):
 
         if version != polymatch.__version__ and self.is_compiled():
             self.compile()
+
+    def __repr__(self) -> str:
+        return "{}(pattern={!r}, case_action={}, invert={!r})".format(
+            type(self).__name__, self.pattern, self.case_action, self.inverted
+        )
+
+    def __str__(self) -> str:
+        res = self.to_string()
+        if isinstance(res, str):
+            return res
+
+        return res.decode()
