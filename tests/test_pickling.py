@@ -1,3 +1,5 @@
+"""Test pickling the pattern objects."""
+
 import itertools
 import pickle
 from typing import Any, TypeVar, cast
@@ -12,7 +14,10 @@ patterns = ("regex::test", "exact::test", "contains:cf:test", "glob::beep")
 
 
 class C:
+    """Test object for pickling list of patterns."""
+
     def __init__(self, pat: PolymorphicMatcher[Any, Any]) -> None:
+        """Construct testing object."""
         self.patterns = [pat]
 
 
@@ -20,6 +25,7 @@ T = TypeVar("T")
 
 
 def cycle_pickle(obj: T, proto: int) -> T:
+    """Pickle and unpickle an item, and return the result."""
     return cast(T, pickle.loads(pickle.dumps(obj, proto)))
 
 
@@ -28,6 +34,7 @@ def cycle_pickle(obj: T, proto: int) -> T:
     itertools.product(patterns, range(pickle.HIGHEST_PROTOCOL + 1)),
 )
 def test_compile_state(pattern: str, pickle_proto: int) -> None:
+    """Ensure the compile state is preserved."""
     compiled_pattern = pattern_registry.pattern_from_string(pattern)
     compiled_pattern.compile()
 
@@ -51,6 +58,7 @@ def test_compile_state(pattern: str, pickle_proto: int) -> None:
     itertools.product(patterns, range(pickle.HIGHEST_PROTOCOL + 1)),
 )
 def test_properties(pattern: str, pickle_proto: int) -> None:
+    """Ensure pattern properties are preserved (e.g. inverted state)."""
     pat = pattern_registry.pattern_from_string(pattern)
     pat.compile()
 
@@ -78,6 +86,7 @@ def test_properties(pattern: str, pickle_proto: int) -> None:
     itertools.product(patterns, range(pickle.HIGHEST_PROTOCOL + 1)),
 )
 def test_version_checks(pattern: str, pickle_proto: int) -> None:
+    """Ensure pattern is recompiled when pickled compiled and library version changes."""
     pat = pattern_registry.pattern_from_string(pattern)
     pat.compile()
 

@@ -1,3 +1,5 @@
+"""Test regex matcher."""
+
 import pytest
 
 from polymatch import pattern_registry
@@ -16,12 +18,14 @@ data = (
 
 @pytest.mark.parametrize(("pattern", "text", "result"), data)
 def test_patterns(pattern: str, text: str, result: bool) -> None:
+    """Test various patterns against different inputs."""
     matcher = pattern_registry.pattern_from_string(pattern)
     matcher.compile()
     assert bool(matcher == text) is result
 
 
 def test_invert() -> None:
+    """Test pattern invert."""
     pattern = pattern_registry.pattern_from_string("~regex::beep")
     pattern.compile()
     assert pattern.inverted

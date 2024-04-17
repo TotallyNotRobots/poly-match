@@ -1,3 +1,5 @@
+"""Test glob matcher."""
+
 import pytest
 
 from polymatch import pattern_registry
@@ -15,12 +17,14 @@ data = (
 
 @pytest.mark.parametrize(("pattern", "text", "result"), data)
 def test_patterns(pattern: str, text: str, result: bool) -> None:
+    """Ensure various patterns match their expected text."""
     matcher = pattern_registry.pattern_from_string(pattern)
     matcher.compile()
     assert bool(matcher == text) is result
 
 
 def test_invert() -> None:
+    """Ensure parsing inverted pattern works."""
     pattern = pattern_registry.pattern_from_string("~glob::beep")
     pattern.compile()
     assert pattern.inverted

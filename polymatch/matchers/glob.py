@@ -1,3 +1,5 @@
+"""Glob pattern matcher."""
+
 from fnmatch import translate
 from typing import TYPE_CHECKING, AnyStr
 
@@ -8,9 +10,15 @@ if TYPE_CHECKING:
 
 
 class GlobMatcher(RegexMatcher[AnyStr]):
+    """Match glob patterns.
+
+    Implemented as a subclass of RegexMatcher, glob patterns are translated to regex on compilation.
+    """
+
     def compile_pattern(
         self, raw_pattern: AnyStr, *, flags: int = 0
     ) -> "regex.Pattern[AnyStr]":
+        """Override RegexMatcher compile to transform glob-syntax."""
         if isinstance(raw_pattern, str):
             res = translate(raw_pattern)
         else:
@@ -23,4 +31,5 @@ class GlobMatcher(RegexMatcher[AnyStr]):
 
     @classmethod
     def get_type(cls) -> str:
+        """Pattern type."""
         return "glob"

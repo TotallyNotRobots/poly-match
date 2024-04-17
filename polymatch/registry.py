@@ -1,3 +1,14 @@
+"""Pattern matcher registry.
+
+This also implements parsing the pattern from a simple string e.g.:
+    >>> from polymatch.registry import pattern_registry
+    >>> pat = pattern_registry.pattern_from_string('contains:ci:foo')
+    >>> pat.compile()
+    >>> pat == 'this is Foo Bar'
+    True
+
+"""
+
 from collections import OrderedDict
 from typing import Any, AnyStr, Dict, Optional, Tuple, Type
 
@@ -53,10 +64,22 @@ _MatcherCls = Type[_Matcher]
 
 
 class PatternMatcherRegistry:
+    """Registry for pattern types."""
+
     def __init__(self) -> None:
+        """Construct the registry."""
         self._matchers: Dict[str, _MatcherCls] = OrderedDict()
 
     def register(self, cls: Type[Any]) -> None:
+        """Register a pattern type.
+
+        Args:
+            cls: Pattern type to register.
+
+        Raises:
+            TypeError: If the pattern is not an implementation of PolymorphicMatcher
+            DuplicateMatcherRegistrationError: If a matching pattern is already registered
+        """
         if not issubclass(cls, PolymorphicMatcher):
             msg = "Pattern matcher must be of type {!r} not {!r}".format(
                 PolymorphicMatcher.__name__, cls.__name__
@@ -70,21 +93,56 @@ class PatternMatcherRegistry:
         self._matchers[name] = cls
 
     def remove(self, name: str) -> None:
+        """Remove a pattern type from the registry.
+
+        Args:
+            name: Pattern type to remove
+        """
         del self._matchers[name]
 
     def get_matcher(self, name: str) -> _MatcherCls:
+        """Find the matching Matcher object.
+
+        Args:
+            name: name of the pattern type.
+
+        Raises:
+            NoSuchMatcherError: When a matching pattern type is not registered.
+
+        Returns:
+            The Matcher class for the given pattern type.
+        """
         try:
             return self._matchers[name]
         except LookupError as e:
             raise NoSuchMatcherError(name) from e
 
     def get_default_matcher(self) -> _MatcherCls:
+        """Retrieve the default matcher used when a pattern string does not specify one.
+
+        Raises:
+            NoMatchersAvailableError: When no matchers are registered so no default can be found
+
+        Returns:
+            The default pattern type
+        """
         if self._matchers:
             return next(iter(self._matchers.values()))
 
         raise NoMatchersAvailableError
 
     def pattern_from_string(self, text: AnyStr) -> _Matcher:
+        """Parse pattern string to Matcher object.
+
+        Args:
+            text: Pattern string to parse.
+
+        Raises:
+            LookupError: If the pattern or case-action can't be found.
+
+        Returns:
+            The Matcher object as described by the pattern text.
+        """
         invert, name, opts, pattern = _parse_pattern_string(text)
         match_cls = (
             self.get_default_matcher() if not name else self.get_matcher(name)
@@ -103,6 +161,17 @@ class PatternMatcherRegistry:
         return match_cls(pattern, case_action, invert=invert)
 
     def __getitem__(self, item: str) -> _MatcherCls:
+        """Find the matching Matcher object.
+
+        Args:
+            item: name of the pattern type.
+
+        Raises:
+            NoSuchMatcherError: When a matching pattern type is not registered.
+
+        Returns:
+            The Matcher class for the given pattern type.
+        """
         return self.get_matcher(item)
 
 
