@@ -1,3 +1,9 @@
+from polymatch._version import (
+    __version__,
+    __version_tuple__,
+    version,
+    version_tuple,
+)
 from polymatch.base import CaseAction, PolymorphicMatcher
 from polymatch.error import (
     DuplicateMatcherRegistrationError,
@@ -9,9 +15,11 @@ from polymatch.error import (
 )
 from polymatch.registry import pattern_registry
 
-__version__ = "0.3.0"
-
 __all__ = [
+    "__version__",
+    "__version_tuple__",
+    "version",
+    "version_tuple",
     "PolymorphicMatcher",
     "CaseAction",
     "pattern_registry",
