@@ -1,3 +1,13 @@
+## v0.4.1 (2024-04-18)
+
+### Fix
+
+- correct the version reference
+
+### Refactor
+
+- add ssort to sort module members
+
 ## v0.4.0 (2024-04-16)
 
 ## v0.3.0 (2024-04-04)
