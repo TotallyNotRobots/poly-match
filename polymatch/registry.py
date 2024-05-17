@@ -81,9 +81,7 @@ class PatternMatcherRegistry:
             DuplicateMatcherRegistrationError: If a matching pattern is already registered
         """
         if not issubclass(cls, PolymorphicMatcher):
-            msg = "Pattern matcher must be of type {!r} not {!r}".format(
-                PolymorphicMatcher.__name__, cls.__name__
-            )
+            msg = f"Pattern matcher must be of type {PolymorphicMatcher.__name__!r} not {cls.__name__!r}"
             raise TypeError(msg)
 
         name = cls.get_type()

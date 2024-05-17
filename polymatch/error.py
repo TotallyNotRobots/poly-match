@@ -36,9 +36,7 @@ class PatternTextTypeMismatchError(TypeError):
             text_type: Input text type
         """
         super().__init__(
-            "Pattern of type {!r} can not match text of type {!r}".format(
-                pattern_type.__name__, text_type.__name__
-            )
+            f"Pattern of type {pattern_type.__name__!r} can not match text of type {text_type.__name__!r}"
         )
 
 

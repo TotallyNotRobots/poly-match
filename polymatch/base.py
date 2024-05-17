@@ -265,19 +265,10 @@ class PolymorphicMatcher(Generic[AnyStr, AnyPattern], metaclass=ABCMeta):
             The pattern string text
         """
         if isinstance(self.pattern, str):
-            return "{}{}:{}:{}".format(
-                "~" if self.inverted else "",
-                self.get_type(),
-                self.case_action.value[1],
-                self.pattern,
-            )
+            return f"{'~' if self.inverted else ''}{self.get_type()}:{self.case_action.value[1]}:{self.pattern}"
 
         return (
-            "{}{}:{}:".format(
-                "~" if self.inverted else "",
-                self.get_type(),
-                self.case_action.value[1],
-            )
+            f"{'~' if self.inverted else ''}{self.get_type()}:{self.case_action.value[1]}:"
         ).encode() + self.pattern
 
     def __eq__(self, other: object) -> bool:
