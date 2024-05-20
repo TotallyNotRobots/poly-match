@@ -74,7 +74,7 @@ repos:
   - hooks:
       - id: commitizen
     repo: https://github.com/commitizen-tools/commitizen
-    rev: 9d17f393228f6c60793b4929d910e3b1f0fcb1ad  # frozen: v3.25.1
+    rev: c2bbc92202e9080adcdf8fa2e99c9e4406a1f684  # frozen: v3.26.0
   - hooks:
       - entry: hatch run python3 -m mypy
         exclude: tests/.*
