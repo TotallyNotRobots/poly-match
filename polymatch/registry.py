@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2018-present linuxdaemon <linuxdaemon.irc@gmail.com>
+#
+# SPDX-License-Identifier: MIT
+
 """Pattern matcher registry.
 
 This also implements parsing the pattern from a simple string e.g.:

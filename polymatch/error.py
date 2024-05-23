@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2018-present linuxdaemon <linuxdaemon.irc@gmail.com>
+#
+# SPDX-License-Identifier: MIT
+
 """Exceptions raised by the library."""
 
 from typing import TYPE_CHECKING, AnyStr, Type

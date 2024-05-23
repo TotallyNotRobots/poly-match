@@ -88,6 +88,11 @@ repos:
     rev: '36d4912df1f0bd2ed8cc535b57c5ba3b09ce3d46'  # frozen: v0.35.0
     hooks:
       - id: nitpick
+  - repo: "https://github.com/TotallyNotRobots/check-spdx-header"
+    rev: '2a52cf804e6dedd045e765185382d4f916ae2f3f'  # frozen: 0.1.0a2
+    hooks:
+      - id: fix-spdx-header
+
 minimum_pre_commit_version: 2.18.0
 default_install_hook_types:
   - pre-commit
