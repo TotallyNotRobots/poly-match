@@ -1,8 +1,10 @@
 repos:
-  - hooks:
-      - args:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: '2c9f875913ee60ca25ce70243dc24d5b6415598c'  # frozen: v4.6.0
+    hooks:
+      - id: trailing-whitespace
+        args:
           - --markdown-linebreak-ext=md,markdown
-        id: trailing-whitespace
       - id: end-of-file-fixer
       - id: check-yaml
       - id: check-added-large-files
@@ -17,72 +19,70 @@ repos:
       - id: check-executables-have-shebangs
       - id: check-shebang-scripts-are-executable
       - id: check-symlinks
-      - args:
+      - id: mixed-line-ending
+        args:
           - --fix=lf
-        id: mixed-line-ending
-      - exclude: ^\.(vscode|devcontainer)/
-        id: check-json
-      - args:
+      - id: check-json
+        exclude: ^\.(vscode|devcontainer)/
+      - id: pretty-format-json
+        exclude: ^\.(vscode|devcontainer)/
+        args:
           - --indent
           - '4'
           - --autofix
           - --no-sort-keys
-        exclude: ^\.(vscode|devcontainer)/
-        id: pretty-format-json
       - id: check-toml
-    repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: 2c9f875913ee60ca25ce70243dc24d5b6415598c
   - repo: https://github.com/bwhmather/ssort
-    rev: 202524364c6ba81752b4fa9c77f16c9ccd5a5e28  # frozen: 0.13.0
+    rev: '202524364c6ba81752b4fa9c77f16c9ccd5a5e28'  # frozen: 0.13.0
     hooks:
       - id: ssort
-  - hooks:
+  - repo: https://github.com/psf/black
+    rev: '3702ba224ecffbcec30af640c149f231d90aebdb'  # frozen: 24.4.2
+    hooks:
       - id: black
-    repo: https://github.com/psf/black
-    rev: 3702ba224ecffbcec30af640c149f231d90aebdb  # frozen: 24.4.2
-  - hooks:
+  - repo: https://github.com/pycqa/isort
+    rev: 'c235f5e450b4b84e58d114ed4c589cbf454175a3'  # frozen: 5.13.2
+    hooks:
       - id: isort
-    repo: https://github.com/pycqa/isort
-    rev: c235f5e450b4b84e58d114ed4c589cbf454175a3
-  - hooks:
+  - repo: https://github.com/pre-commit/pygrep-hooks
+    rev: '3a6eb0fadf60b3cccfd80bad9dbb6fae7e47b316'  # frozen: v1.10.0
+    hooks:
       - id: python-no-eval
       - id: python-no-log-warn
-    repo: https://github.com/pre-commit/pygrep-hooks
-    rev: 3a6eb0fadf60b3cccfd80bad9dbb6fae7e47b316
-  - hooks:
+  - repo: https://github.com/ikamensh/flynt
+    rev: '651c822fdcf45fffcf9743dc755085f32acb65e3'  # frozen: 1.0.1
+    hooks:
       - id: flynt
-    repo: https://github.com/ikamensh/flynt
-    rev: 651c822fdcf45fffcf9743dc755085f32acb65e3
-  - hooks:
-      - args:
+  - repo: https://github.com/asottile/pyupgrade
+    rev: '12af25eb252deaaecb6b259df40d01f42e716dc3'  # frozen: v3.15.2
+    hooks:
+      - id: pyupgrade
+        args:
           - --py38-plus
-        id: pyupgrade
-    repo: https://github.com/asottile/pyupgrade
-    rev: 12af25eb252deaaecb6b259df40d01f42e716dc3
-  - hooks:
-      - additional_dependencies:
+  - repo: https://github.com/MarcoGorelli/auto-walrus
+    rev: 'ba0661836089a532a710f68713a3e3e53f7f0113'  # frozen: 0.3.4
+    hooks:
+      - id: auto-walrus
+        additional_dependencies:
           - tomli ; python_version < '3.11'
-        id: auto-walrus
-    repo: https://github.com/MarcoGorelli/auto-walrus
-    rev: ba0661836089a532a710f68713a3e3e53f7f0113  # frozen: 0.3.4
-  - hooks:
-      - additional_dependencies:
+  - repo: https://github.com/codespell-project/codespell
+    rev: '193cd7d27cd571f79358af09a8fb8997e54f8fff'  # frozen: v2.3.0
+    hooks:
+      - id: codespell
+        additional_dependencies:
           - tomli ; python_version < '3.11'
-        id: codespell
-    repo: https://github.com/codespell-project/codespell
-    rev: 6e41aba91fb32e9feb741a6258eefeb9c6e4a482
-  - hooks:
+  - repo: https://github.com/commitizen-tools/commitizen
+    rev: 'e9aa5d979ea6fd14dcf59c6bd3836bef17d386c1'  # frozen: v3.27.0
+    hooks:
       - id: commitizen
-    repo: https://github.com/commitizen-tools/commitizen
-    rev: c2bbc92202e9080adcdf8fa2e99c9e4406a1f684  # frozen: v3.26.0
-  - hooks:
-      - entry: hatch run types:check
-        id: mypy
+  - repo: local
+    hooks:
+      - id: mypy
+        entry: hatch run types:check
         language: system
         name: mypy
         types:
           - python
-    repo: local
   - repo: https://github.com/andreoliwa/nitpick
     rev: '36d4912df1f0bd2ed8cc535b57c5ba3b09ce3d46'  # frozen: v0.35.0
     hooks:

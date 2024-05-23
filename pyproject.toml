@@ -45,10 +45,12 @@ dependencies = [
     "pre-commit",
     "mypy>=1.8",
     "types-regex",
+    "ruamel.yaml",
 ]
 
 [tool.hatch.envs.default.scripts]
 setup-dev = ["hatch run pre-commit install"]
+fix-pre-commit = ["hatch run python3 -m scripts.fix_pre_commit"]
 
 [tool.hatch.envs.hatch-test]
 default-args = ["tests", "polymatch"]
