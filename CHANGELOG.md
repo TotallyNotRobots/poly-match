@@ -1,3 +1,9 @@
+## v0.4.2 (2024-05-24)
+
+### Refactor
+
+- apply nitpick settings
+
 ## v0.4.1 (2024-04-18)
 
 ### Fix
