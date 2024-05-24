@@ -1,7 +1,7 @@
 # poly-match
 Python Polymorphic Pattern Matching library
 
-[![CI - Test](https://github.com/TotallyNotRobots/poly-match/actions/workflows/python-tests.yml/badge.svg)](https://github.com/TotallyNotRobots/poly-match/actions/workflows/python-tests.yml)
+[![CI - Test](https://github.com/TotallyNotRobots/poly-match/actions/workflows/test.yml/badge.svg)](https://github.com/TotallyNotRobots/poly-match/actions/workflows/test.yml)
 [![CD - Build](https://github.com/TotallyNotRobots/poly-match/actions/workflows/python-publish.yml/badge.svg)](https://github.com/TotallyNotRobots/poly-match/actions/workflows/python-publish.yml)
 [![codecov](https://codecov.io/gh/TotallyNotRobots/poly-match/graph/badge.svg?token=nJqN3RacOa)](https://codecov.io/gh/TotallyNotRobots/poly-match)
 
