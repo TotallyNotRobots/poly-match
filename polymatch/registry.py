@@ -14,7 +14,7 @@ This also implements parsing the pattern from a simple string e.g.:
 """
 
 from collections import OrderedDict
-from typing import Any, AnyStr, Dict, Optional, Tuple, Type
+from typing import Any, AnyStr, Optional
 
 from polymatch.base import CaseAction, PolymorphicMatcher
 from polymatch.error import (
@@ -29,7 +29,7 @@ from polymatch.matchers.standard import ContainsMatcher, ExactMatcher
 
 def _opt_split(
     text: AnyStr, delim: AnyStr, empty: AnyStr, invchar: AnyStr
-) -> Tuple[bool, AnyStr, AnyStr, AnyStr]:
+) -> tuple[bool, AnyStr, AnyStr, AnyStr]:
     if text.startswith(invchar):
         invert = True
         text = text[len(invchar) :]
@@ -50,7 +50,7 @@ def _opt_split(
     return invert, name, opts, text
 
 
-def _parse_pattern_string(text: AnyStr) -> Tuple[bool, str, str, AnyStr]:
+def _parse_pattern_string(text: AnyStr) -> tuple[bool, str, str, AnyStr]:
     if isinstance(text, str):
         invert, name, opts, pattern = _opt_split(text, ":", "", "~")
         return invert, name, opts, pattern
@@ -64,7 +64,7 @@ def _parse_pattern_string(text: AnyStr) -> Tuple[bool, str, str, AnyStr]:
 
 
 _Matcher = PolymorphicMatcher[Any, Any]
-_MatcherCls = Type[_Matcher]
+_MatcherCls = type[_Matcher]
 
 
 class PatternMatcherRegistry:
@@ -72,9 +72,9 @@ class PatternMatcherRegistry:
 
     def __init__(self) -> None:
         """Construct the registry."""
-        self._matchers: Dict[str, _MatcherCls] = OrderedDict()
+        self._matchers: dict[str, _MatcherCls] = OrderedDict()
 
-    def register(self, cls: Type[Any]) -> None:
+    def register(self, cls: type[Any]) -> None:
         """Register a pattern type.
 
         Args:

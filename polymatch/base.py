@@ -9,16 +9,7 @@ Matchers should implement `PolymorphicMatcher`.
 
 from abc import ABCMeta, abstractmethod
 from enum import Enum
-from typing import (
-    AnyStr,
-    Callable,
-    Generic,
-    Optional,
-    Tuple,
-    Type,
-    TypeVar,
-    cast,
-)
+from typing import AnyStr, Callable, Generic, Optional, TypeVar, cast
 
 import polymatch
 from polymatch.error import (
@@ -39,15 +30,15 @@ class CaseAction(Enum):
 
 AnyPattern = TypeVar("AnyPattern")
 
-TUPLE_V1 = Tuple[AnyStr, CaseAction, bool, AnyPattern, Type[AnyStr], object]
-TUPLE_V2 = Tuple[
-    str, AnyStr, CaseAction, bool, Optional[AnyPattern], Type[AnyStr], object
+TUPLE_V1 = tuple[AnyStr, CaseAction, bool, AnyPattern, type[AnyStr], object]
+TUPLE_V2 = tuple[
+    str, AnyStr, CaseAction, bool, Optional[AnyPattern], type[AnyStr], object
 ]
 
 CompileFunc = Callable[[AnyStr], AnyPattern]
 MatchFunc = Callable[[AnyPattern, AnyStr], bool]
 
-FuncTuple = Tuple[
+FuncTuple = tuple[
     CompileFunc[AnyStr, AnyPattern], MatchFunc[AnyPattern, AnyStr]
 ]
 
@@ -59,7 +50,7 @@ class PolymorphicMatcher(Generic[AnyStr, AnyPattern], metaclass=ABCMeta):
 
     def _get_case_functions(
         self,
-    ) -> Tuple[CompileFunc[AnyStr, AnyPattern], MatchFunc[AnyPattern, AnyStr]]:
+    ) -> tuple[CompileFunc[AnyStr, AnyPattern], MatchFunc[AnyPattern, AnyStr]]:
         suffix = self.case_action.value[1]
 
         if suffix:
@@ -94,7 +85,7 @@ class PolymorphicMatcher(Generic[AnyStr, AnyPattern], metaclass=ABCMeta):
             TypeError: If a bytes pattern is provided and casefolding is requested.
         """
         self._raw_pattern: AnyStr = pattern
-        self._str_type: Type[AnyStr] = type(pattern)
+        self._str_type: type[AnyStr] = type(pattern)
         self._compiled_pattern: Optional[AnyPattern] = None
         self._case_action = case_action
         self._invert = invert
@@ -122,7 +113,7 @@ class PolymorphicMatcher(Generic[AnyStr, AnyPattern], metaclass=ABCMeta):
 
     # TODO(linuxdaemon): #59 deprecate and replace with a non-conflicting name.
     # https://github.com/TotallyNotRobots/poly-match/issues/59
-    def compile(self) -> None:  # noqa: A003
+    def compile(self) -> None:
         """Compile the pattern using the implementations compile_{ci,cf,cs} methods.
 
         Raises:
@@ -130,7 +121,7 @@ class PolymorphicMatcher(Generic[AnyStr, AnyPattern], metaclass=ABCMeta):
         """
         try:
             self._compiled_pattern = self._compile_func(self.pattern)
-        except Exception as e:  # noqa: BLE001
+        except Exception as e:
             msg = f"Failed to compile pattern {self.pattern!r}"
             raise PatternCompileError(msg) from e
 
@@ -352,9 +343,7 @@ class PolymorphicMatcher(Generic[AnyStr, AnyPattern], metaclass=ABCMeta):
         Returns:
             The repr for this object
         """
-        return "{}(pattern={!r}, case_action={}, invert={!r})".format(
-            type(self).__name__, self.pattern, self.case_action, self.inverted
-        )
+        return f"{type(self).__name__}(pattern={self.pattern!r}, case_action={self.case_action}, invert={self.inverted!r})"
 
     def __str__(self) -> str:
         """Represent the pattern as its pattern string, to be passed to `pattern_from_string()`."""

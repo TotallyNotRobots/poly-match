@@ -2,10 +2,8 @@
 #
 # SPDX-License-Identifier: MIT
 
-from collections import OrderedDict
-
 from ruamel.yaml import YAML
-from ruamel.yaml.comments import Comment, CommentedMap, CommentedSeq
+from ruamel.yaml.comments import CommentedMap, CommentedSeq
 
 yaml = YAML(typ="rt")
 

@@ -4,7 +4,7 @@
 
 """Exceptions raised by the library."""
 
-from typing import TYPE_CHECKING, AnyStr, Type
+from typing import TYPE_CHECKING, AnyStr
 
 if TYPE_CHECKING:
     from polymatch.base import AnyPattern
@@ -31,7 +31,7 @@ class PatternTextTypeMismatchError(TypeError):
     """Error for when pattern text type doesn't match input text type."""
 
     def __init__(
-        self, pattern_type: "Type[AnyPattern]", text_type: Type[AnyStr]
+        self, pattern_type: "type[AnyPattern]", text_type: type[AnyStr]
     ) -> None:
         """Construct pattern type mismatch error.
 
