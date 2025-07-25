@@ -1,3 +1,18 @@
+## v0.6.0 (2025-07-25)
+
+### Feat
+
+- Add renovate.json
+
+### Fix
+
+- **devcontainer**: update zsh-plugins feature source URL
+- remove non-default codeql config
+
+### Refactor
+
+- update linter rules
+
 ## v0.5.2 (2024-05-24)
 
 ## v0.5.1 (2024-05-24)
