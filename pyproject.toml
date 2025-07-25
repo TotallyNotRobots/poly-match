@@ -91,7 +91,6 @@ line-ending = "lf"
 skip-magic-trailing-comma = true
 
 [tool.ruff.lint]
-ignore-init-module-imports = false
 extend-safe-fixes = [
     "EM101",
     "EM102",
@@ -100,11 +99,15 @@ extend-safe-fixes = [
     "TCH001",
     "TCH002",
     "TRY400",
+    "SIM102",
     "SIM117",
     "SIM108",
     "ANN201",
     "D415",
     "D200",
+    "RUF005",
+    "S311",
+    "PT006",
 ]
 ignore = [
     "TRY003", # TODO(aspen): Switch to custom exceptions
@@ -114,6 +117,16 @@ ignore = [
     "ISC001", # Conflicts with formatter
     "EXE002", # pre-commit does it better, works with SMB shares
     "FA100",
+    "D100",    # TODO(aspen): Document modules
+    "D101",    # TODO(aspen): Document classes
+    "D102",    # TODO(aspen): Document public methods
+    "D103",    # TODO(aspen): Document public functions
+    "D104",    # TODO(aspen): Document package
+    "D105",    # TODO(aspen): Document __*__ methods
+    "D107",    # TODO(aspen): Document __init__ methods
+    "S607",    # Partial executable paths are an accepted risk to allow cross-platform use -aspen
+    "PLR0913", # TODO(aspen): Set specific ignores for cli handlers
+    "FIX002",  # Ignore todo comments
 ]
 select = ["ALL"]
 

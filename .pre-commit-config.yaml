@@ -83,6 +83,12 @@ repos:
         name: mypy
         types:
           - python
+      - id: hatch-fmt
+        name: hatch format
+        entry: hatch fmt
+        language: system
+        types:
+          - python
   - repo: https://github.com/andreoliwa/nitpick
     rev: '36d4912df1f0bd2ed8cc535b57c5ba3b09ce3d46'  # frozen: v0.35.0
     hooks:

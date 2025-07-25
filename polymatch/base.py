@@ -259,12 +259,12 @@ class PolymorphicMatcher(Generic[AnyStr, AnyPattern], metaclass=ABCMeta):
         Returns:
             The pattern string text
         """
+        prefix = "~" if self.inverted else ""
+        preamble = f"{prefix}{self.get_type()}:{self.case_action.value[1]}:"
         if isinstance(self.pattern, str):
-            return f"{'~' if self.inverted else ''}{self.get_type()}:{self.case_action.value[1]}:{self.pattern}"
+            return f"{preamble}{self.pattern}"
 
-        return (
-            f"{'~' if self.inverted else ''}{self.get_type()}:{self.case_action.value[1]}:"
-        ).encode() + self.pattern
+        return preamble.encode() + self.pattern
 
     def __eq__(self, other: object) -> bool:
         """Compare against input text.
@@ -343,7 +343,10 @@ class PolymorphicMatcher(Generic[AnyStr, AnyPattern], metaclass=ABCMeta):
         Returns:
             The repr for this object
         """
-        return f"{type(self).__name__}(pattern={self.pattern!r}, case_action={self.case_action}, invert={self.inverted!r})"
+        return (
+            f"{type(self).__name__}(pattern={self.pattern!r}, "
+            f"case_action={self.case_action}, invert={self.inverted!r})"
+        )
 
     def __str__(self) -> str:
         """Represent the pattern as its pattern string, to be passed to `pattern_from_string()`."""

@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: MIT
 
+from pathlib import Path
+
 from ruamel.yaml import YAML
 from ruamel.yaml.comments import CommentedMap, CommentedSeq
 
@@ -12,9 +14,11 @@ yaml.sequence_dash_offset = 2
 yaml.map_indent = 2
 yaml.sequence_indent = 4
 
+PRE_COMMIT_FILE = Path(".pre-commit-config.yaml")
+
 
 def main() -> None:
-    with open(".pre-commit-config.yaml") as f:
+    with PRE_COMMIT_FILE.open() as f:
         data = yaml.load(f)
 
     repos: CommentedSeq = data["repos"]
@@ -25,7 +29,6 @@ def main() -> None:
         for v in ("repo", "rev"):
             if v in repo:
                 old = repo.pop(v)
-                # print(type(old))
                 new_repo[v] = old
 
         for k, v in repo.items():
@@ -46,7 +49,7 @@ def main() -> None:
 
         repos[j] = new_repo
 
-    with open(".pre-commit-config.yaml", "w") as f:
+    with PRE_COMMIT_FILE.open("w") as f:
         yaml.dump(data, f)
 
 

@@ -6,9 +6,9 @@
 
 This also implements parsing the pattern from a simple string e.g.:
     >>> from polymatch.registry import pattern_registry
-    >>> pat = pattern_registry.pattern_from_string('contains:ci:foo')
+    >>> pat = pattern_registry.pattern_from_string("contains:ci:foo")
     >>> pat.compile()
-    >>> pat == 'this is Foo Bar'
+    >>> pat == "this is Foo Bar"
     True
 
 """
@@ -85,7 +85,11 @@ class PatternMatcherRegistry:
             DuplicateMatcherRegistrationError: If a matching pattern is already registered
         """
         if not issubclass(cls, PolymorphicMatcher):
-            msg = f"Pattern matcher must be of type {PolymorphicMatcher.__name__!r} not {cls.__name__!r}"
+            msg = (
+                "Pattern matcher must be of type "
+                f"{PolymorphicMatcher.__name__!r} "
+                f"not {cls.__name__!r}"
+            )
             raise TypeError(msg)
 
         name = cls.get_type()

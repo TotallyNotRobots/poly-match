@@ -40,7 +40,8 @@ class PatternTextTypeMismatchError(TypeError):
             text_type: Input text type
         """
         super().__init__(
-            f"Pattern of type {pattern_type.__name__!r} can not match text of type {text_type.__name__!r}"
+            f"Pattern of type {pattern_type.__name__!r} can not match text of "
+            f"type {text_type.__name__!r}"
         )
 
 
