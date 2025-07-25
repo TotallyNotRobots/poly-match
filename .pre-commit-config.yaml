@@ -86,6 +86,7 @@ repos:
       - id: hatch-fmt
         name: hatch format
         entry: hatch fmt
+        require_serial: true
         language: system
         types:
           - python
