@@ -14,7 +14,7 @@ This also implements parsing the pattern from a simple string e.g.:
 """
 
 from collections import OrderedDict
-from typing import Any, AnyStr, Optional
+from typing import Any, AnyStr
 
 from polymatch.base import CaseAction, PolymorphicMatcher
 from polymatch.error import (
@@ -154,7 +154,7 @@ class PatternMatcherRegistry:
             self.get_default_matcher() if not name else self.get_matcher(name)
         )
 
-        case_action: Optional[CaseAction] = None
+        case_action: CaseAction | None = None
         for action in CaseAction:
             if action.value[1] == opts:
                 case_action = action

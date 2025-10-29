@@ -8,8 +8,9 @@ Matchers should implement `PolymorphicMatcher`.
 """
 
 from abc import ABCMeta, abstractmethod
+from collections.abc import Callable
 from enum import Enum
-from typing import AnyStr, Callable, Generic, Optional, TypeVar, cast
+from typing import AnyStr, Generic, TypeVar, cast
 
 import polymatch
 from polymatch.error import (
@@ -32,7 +33,7 @@ AnyPattern = TypeVar("AnyPattern")
 
 TUPLE_V1 = tuple[AnyStr, CaseAction, bool, AnyPattern, type[AnyStr], object]
 TUPLE_V2 = tuple[
-    str, AnyStr, CaseAction, bool, Optional[AnyPattern], type[AnyStr], object
+    str, AnyStr, CaseAction, bool, AnyPattern | None, type[AnyStr], object
 ]
 
 CompileFunc = Callable[[AnyStr], AnyPattern]
@@ -86,7 +87,7 @@ class PolymorphicMatcher(Generic[AnyStr, AnyPattern], metaclass=ABCMeta):
         """
         self._raw_pattern: AnyStr = pattern
         self._str_type: type[AnyStr] = type(pattern)
-        self._compiled_pattern: Optional[AnyPattern] = None
+        self._compiled_pattern: AnyPattern | None = None
         self._case_action = case_action
         self._invert = invert
 
