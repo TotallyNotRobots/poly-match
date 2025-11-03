@@ -9,7 +9,7 @@ description = "A polymorphic pattern matching library for Python"
 readme = "README.md"
 license = "MIT"
 requires-python = ">=3.10"
-authors = [{ name = "linuxdaemon", email = "linuxdaemon.irc@gmail.com" }]
+authors = [{name = "linuxdaemon", email = "linuxdaemon.irc@gmail.com"}]
 keywords = ["library", "pattern-matching", "utility", "regex"]
 classifiers = [
     "Development Status :: 3 - Alpha",
@@ -54,21 +54,25 @@ fix-pre-commit = ["hatch run python3 -m scripts.fix_pre_commit"]
 [tool.hatch.envs.hatch-test]
 default-args = ["tests", "polymatch"]
 extra-args = ["-vv", "--junitxml=junit.xml"]
+
 [tool.hatch.envs.hatch-test.scripts]
 run = "pytest{env:HATCH_TEST_ARGS:} {args}"
 run-cov = "coverage run -m pytest{env:HATCH_TEST_ARGS:} {args}"
 cov-combine = "coverage combine"
 cov-report = ["coverage report --show-missing --skip-covered", "coverage xml"]
+
 [[tool.hatch.envs.hatch-test.matrix]]
 python = ["3.13", "3.12", "3.11", "3.10"]
 
 [tool.hatch.envs.types]
 extra-dependencies = ["mypy==1.18.2"]
+
 [tool.hatch.envs.types.scripts]
 check = "mypy --install-types --non-interactive {args:polymatch tests}"
 
 [tool.hatch.envs.pre-commit]
 post-install-commands = []
+
 [tool.hatch.envs.pre-commit.scripts]
 run = ["pre-commit run {args:--all}"]
 install = ["pre-commit install {args:-f}"]
@@ -122,28 +126,28 @@ ignore = [
     "ISC001", # Conflicts with formatter
     "EXE002", # pre-commit does it better, works with SMB shares
     "FA100",
-    "D100",    # TODO(aspen): Document modules
-    "D101",    # TODO(aspen): Document classes
-    "D102",    # TODO(aspen): Document public methods
-    "D103",    # TODO(aspen): Document public functions
-    "D104",    # TODO(aspen): Document package
-    "D105",    # TODO(aspen): Document __*__ methods
-    "D107",    # TODO(aspen): Document __init__ methods
-    "S607",    # Partial executable paths are an accepted risk to allow cross-platform use -aspen
+    "D100", # TODO(aspen): Document modules
+    "D101", # TODO(aspen): Document classes
+    "D102", # TODO(aspen): Document public methods
+    "D103", # TODO(aspen): Document public functions
+    "D104", # TODO(aspen): Document package
+    "D105", # TODO(aspen): Document __*__ methods
+    "D107", # TODO(aspen): Document __init__ methods
+    "S607", # Partial executable paths are an accepted risk to allow cross-platform use -aspen
     "PLR0913", # TODO(aspen): Set specific ignores for cli handlers
-    "FIX002",  # Ignore todo comments
+    "FIX002", # Ignore todo comments
 ]
 select = ["ALL"]
 
 [tool.ruff.lint.per-file-ignores]
 "tests/*.py" = [
     "PLR2004", # Allow "magic values" in tests -aspen
-    "S101",    # Allow asserts in tests
-    "S301",    # Allow pickle in tests
-    "SIM201",  # We need to test weird comparison operators
-    "SIM202",  # We need to test weird comparison operstors
-    "SIM300",  # We need to test both forward and reverse comparisons
-    "FBT001",  # Boolean parameters are fine for test cases
+    "S101", # Allow asserts in tests
+    "S301", # Allow pickle in tests
+    "SIM201", # We need to test weird comparison operators
+    "SIM202", # We need to test weird comparison operstors
+    "SIM300", # We need to test both forward and reverse comparisons
+    "FBT001", # Boolean parameters are fine for test cases
 ]
 
 [tool.ruff.lint.pycodestyle]
@@ -188,19 +192,20 @@ enable_error_code = [
     "truthy-bool",
     "truthy-iterable",
     "ignore-without-code",
+    "deprecated",
 ]
 ignore_missing_imports = true
 
 [tool.pytest.ini_options]
-minversion = "6.0"
-addopts = "--doctest-modules"
+minversion = "8.0"
+addopts = ["--doctest-modules"]
 testpaths = ["polymatch", "tests"]
 filterwarnings = ["error"]
 
 [tool.coverage.paths]
 polymatch = [
-  "polymatch",
-  "*/polymatch/polymatch",
+    "polymatch",
+    "*/polymatch/polymatch",
 ]
 tests = ["tests", "*/polymatch/tests"]
 
@@ -218,15 +223,6 @@ branch = true
 relative_files = true
 source_pkgs = ["polymatch", "tests"]
 omit = ["polymatch/_version.py"]
-
-[tool.commitizen]
-name = "cz_conventional_commits"
-tag_format = "v$version"
-version_scheme = "semver2"
-version_provider = "scm"
-update_changelog_on_bump = true
-major_version_zero = true
-annotated_tag = true
 
 [tool.nitpick]
 style = ["gh://TotallyNotRobots/nitpick/lib-style-3.10.toml"]

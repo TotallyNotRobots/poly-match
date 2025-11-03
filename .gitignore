@@ -185,3 +185,4 @@ coverage.*
 .coverage.*
 
 !scripts/
+.cache/nitpick/
