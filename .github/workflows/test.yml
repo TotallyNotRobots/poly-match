@@ -30,6 +30,7 @@ jobs:
           - '3.11'
           - '3.12'
           - '3.13'
+          - '3.14'
     name: "Test on ${{matrix.os}} with Python ${{matrix.python-version}}"
     steps:
     - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
