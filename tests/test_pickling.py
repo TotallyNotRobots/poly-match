@@ -30,7 +30,7 @@ T = TypeVar("T")
 
 def cycle_pickle(obj: T, proto: int) -> T:
     """Pickle and unpickle an item, and return the result."""
-    return cast(T, pickle.loads(pickle.dumps(obj, proto)))
+    return cast("T", pickle.loads(pickle.dumps(obj, proto)))
 
 
 @pytest.mark.parametrize(
