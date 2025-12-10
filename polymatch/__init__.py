@@ -22,17 +22,17 @@ from polymatch.error import (
 from polymatch.registry import pattern_registry
 
 __all__ = [
+    "CaseAction",
+    "DuplicateMatcherRegistrationError",
+    "NoMatchersAvailableError",
+    "NoSuchMatcherError",
+    "PatternCompileError",
+    "PatternNotCompiledError",
+    "PatternTextTypeMismatchError",
+    "PolymorphicMatcher",
     "__version__",
     "__version_tuple__",
+    "pattern_registry",
     "version",
     "version_tuple",
-    "PolymorphicMatcher",
-    "CaseAction",
-    "pattern_registry",
-    "NoSuchMatcherError",
-    "NoMatchersAvailableError",
-    "PatternNotCompiledError",
-    "PatternCompileError",
-    "PatternTextTypeMismatchError",
-    "DuplicateMatcherRegistrationError",
 ]

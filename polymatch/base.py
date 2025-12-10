@@ -58,11 +58,12 @@ class PolymorphicMatcher(Generic[AnyStr, AnyPattern], metaclass=ABCMeta):
             suffix = f"_{suffix}"
 
         comp_func = cast(
-            CompileFunc[AnyStr, AnyPattern],
+            "CompileFunc[AnyStr, AnyPattern]",
             getattr(self, f"compile_pattern{suffix}"),
         )
         match_func = cast(
-            MatchFunc[AnyPattern, AnyStr], getattr(self, f"match_text{suffix}")
+            "MatchFunc[AnyPattern, AnyStr]",
+            getattr(self, f"match_text{suffix}"),
         )
         return comp_func, match_func
 
@@ -294,6 +295,9 @@ class PolymorphicMatcher(Generic[AnyStr, AnyPattern], metaclass=ABCMeta):
             return not self.match(other)
 
         return NotImplemented
+
+    def __hash__(self) -> int:
+        return hash((self.pattern, self.case_action, self.inverted))
 
     def __getstate__(self) -> TUPLE_V2[AnyStr, AnyPattern]:
         """Generate object state for pickling.

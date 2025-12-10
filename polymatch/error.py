@@ -10,12 +10,12 @@ if TYPE_CHECKING:
     from polymatch.base import AnyPattern
 
 __all__ = [
+    "DuplicateMatcherRegistrationError",
+    "NoMatchersAvailableError",
+    "NoSuchMatcherError",
     "PatternCompileError",
     "PatternNotCompiledError",
     "PatternTextTypeMismatchError",
-    "DuplicateMatcherRegistrationError",
-    "NoSuchMatcherError",
-    "NoMatchersAvailableError",
 ]
 
 
