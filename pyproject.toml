@@ -42,7 +42,7 @@ dependencies = [
     "coverage[toml]==7.13.0",
     "pytest==9.0.2",
     "pre-commit==4.5.1",
-    "mypy==1.19.0",
+    "mypy==1.19.1",
     "types-regex>=2024",
     "ruamel.yaml==0.18.17",
 ]
@@ -65,7 +65,7 @@ cov-report = ["coverage report --show-missing --skip-covered", "coverage xml"]
 python = ["3.13", "3.12", "3.11", "3.10"]
 
 [tool.hatch.envs.types]
-extra-dependencies = ["mypy==1.19.0"]
+extra-dependencies = ["mypy==1.19.1"]
 
 [tool.hatch.envs.types.scripts]
 check = "mypy --install-types --non-interactive {args:polymatch tests}"
