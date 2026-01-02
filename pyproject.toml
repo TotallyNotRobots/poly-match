@@ -44,7 +44,7 @@ dependencies = [
     "pre-commit==4.5.1",
     "mypy==1.19.1",
     "types-regex>=2024",
-    "ruamel.yaml==0.18.17",
+    "ruamel.yaml==0.19.1",
 ]
 
 [tool.hatch.envs.default.scripts]
