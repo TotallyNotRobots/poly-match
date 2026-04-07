@@ -18,7 +18,7 @@ jobs:
           python-version: "3.13"
 
       - name: Install Hatch
-        uses: pypa/hatch@install
+        uses: pypa/hatch@257e27e51a6a5616ed08a39a408a21c35c9931bc # install
         with:
           version: "${{ env.HATCH_VERSION }}"
 
@@ -50,7 +50,7 @@ jobs:
           path: dist/
 
       - name: Publish distribution 📦 to PyPI
-        uses: pypa/gh-action-pypi-publish@release/v1
+        uses: pypa/gh-action-pypi-publish@cef221092ed1bacb1cc03d23a2d87d1d172e277b # release/v1
 
   github-release:
     name: >-
