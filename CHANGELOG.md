@@ -1,18 +1,3 @@
-## v0.7.0 (2026-05-08)
-
-### Feat
-
-- add python 3.14 support
-
-### Fix
-
-- **ci**: run hatch fmt in serial to avoid cache issues
-
-### Refactor
-
-- correct ruff issues
-- drop support for EOL Python 3.9
-
 ## v0.6.0 (2025-07-25)
 
 ### Feat
