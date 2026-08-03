@@ -35,7 +35,7 @@ def cycle_pickle(obj: T, proto: int) -> T:
 
 @pytest.mark.parametrize(
     ("pattern", "pickle_proto"),
-    itertools.product(patterns, range(pickle.HIGHEST_PROTOCOL + 1)),
+    list(itertools.product(patterns, range(pickle.HIGHEST_PROTOCOL + 1))),
 )
 def test_compile_state(pattern: str, pickle_proto: int) -> None:
     """Ensure the compile state is preserved."""
@@ -59,7 +59,7 @@ def test_compile_state(pattern: str, pickle_proto: int) -> None:
 
 @pytest.mark.parametrize(
     ("pattern", "pickle_proto"),
-    itertools.product(patterns, range(pickle.HIGHEST_PROTOCOL + 1)),
+    list(itertools.product(patterns, range(pickle.HIGHEST_PROTOCOL + 1))),
 )
 def test_properties(pattern: str, pickle_proto: int) -> None:
     """Ensure pattern properties are preserved (e.g. inverted state)."""
@@ -87,7 +87,7 @@ def test_properties(pattern: str, pickle_proto: int) -> None:
 
 @pytest.mark.parametrize(
     ("pattern", "pickle_proto"),
-    itertools.product(patterns, range(pickle.HIGHEST_PROTOCOL + 1)),
+    list(itertools.product(patterns, range(pickle.HIGHEST_PROTOCOL + 1))),
 )
 def test_version_checks(pattern: str, pickle_proto: int) -> None:
     """Ensure pattern is recompiled when pickled compiled and library version changes."""
