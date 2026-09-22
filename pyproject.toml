@@ -9,7 +9,7 @@ description = "A polymorphic pattern matching library for Python"
 readme = "README.md"
 license = "MIT"
 requires-python = ">=3.10"
-authors = [{name = "linuxdaemon", email = "linuxdaemon.irc@gmail.com"}]
+authors = [{ name = "linuxdaemon", email = "linuxdaemon.irc@gmail.com" }]
 keywords = ["library", "pattern-matching", "utility", "regex"]
 classifiers = [
     "Development Status :: 3 - Alpha",
