@@ -41,7 +41,8 @@
                 "ms-azuretools.vscode-docker",
                 "ms-python.mypy-type-checker",
                 "sunipkm.autodocstringpy",
-                "charliermarsh.ruff"
+                "charliermarsh.ruff",
+                "pypa.hatch"
             ],
             "settings": {
                 "python.defaultInterpreterPath": "~/.virtualenvs/polymatch/bin/python",
@@ -54,7 +55,9 @@
                 "terminal.integrated.defaultProfile.linux": "zsh",
                 "[python]": {
                     "editor.defaultFormatter": "charliermarsh.ruff"
-                }
+                },
+                "python-envs.defaultEnvManager": "pypa.hatch:hatch",
+                "python-envs.defaultPackageManager": "pypa.hatch:hatch"
             }
         }
     }
