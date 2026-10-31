@@ -7,6 +7,8 @@
 from fnmatch import translate
 from typing import TYPE_CHECKING, AnyStr
 
+from typing_extensions import override
+
 from polymatch.matchers.regex import RegexMatcher
 
 if TYPE_CHECKING:
@@ -19,6 +21,7 @@ class GlobMatcher(RegexMatcher[AnyStr]):
     Implemented as a subclass of RegexMatcher, glob patterns are translated to regex on compilation.
     """
 
+    @override
     def compile_pattern(
         self, raw_pattern: AnyStr, *, flags: int = 0
     ) -> "regex.Pattern[AnyStr]":
@@ -31,9 +34,10 @@ class GlobMatcher(RegexMatcher[AnyStr]):
             res_str = translate(pat_str)
             res = bytes(res_str, "ISO-8859-1")
 
-        return RegexMatcher.compile_pattern(self, res, flags=flags)
+        return RegexMatcher[AnyStr].compile_pattern(self, res, flags=flags)
 
     @classmethod
+    @override
     def get_type(cls) -> str:
         """Pattern type."""
         return "glob"
