@@ -78,19 +78,6 @@ post-install-commands = []
 run = ["pre-commit run {args:--all}"]
 install = ["pre-commit install {args:-f}"]
 
-[tool.isort]
-profile = "black"
-line_length = 80
-include_trailing_comma = true
-use_parentheses = true
-known_first_party = ["polymatch"]
-float_to_top = true
-
-[tool.black]
-line-length = 80
-target-version = ["py310"]
-include = '\.pyi?$'
-
 [tool.ruff]
 line-length = 80
 target-version = 'py310'
@@ -120,9 +107,8 @@ extend-safe-fixes = [
     "PT006",
 ]
 ignore = [
+    "CPY001", # Handled by check-spdx-header
     "TRY003", # TODO(aspen): Switch to custom exceptions
-    "ANN101", # Due to be deprecated in ruff
-    "ANN102", # Due to be deprecated in ruff
     "COM812", # Conflicts with formatter
     "ISC001", # Conflicts with formatter
     "EXE002", # pre-commit does it better, works with SMB shares
