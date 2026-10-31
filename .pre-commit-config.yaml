@@ -33,7 +33,7 @@ repos:
           - --no-sort-keys
       - id: check-toml
   - repo: https://github.com/bwhmather/ssort
-    rev: 2dd40ba37fdd472ce996668ea415077d756e651b  # frozen: 0.15.0
+    rev: e13cd1ee686c9ed9a6c582a4a36b047ef5e1622c  # frozen: 0.19.0
     hooks:
       - id: ssort
   - repo: https://github.com/pre-commit/pygrep-hooks
@@ -46,25 +46,25 @@ repos:
     hooks:
       - id: flynt
   - repo: https://github.com/asottile/pyupgrade
-    rev: f90119b1b8bd9e46949d9592972b2c4c27d62a97  # frozen: v3.21.0
+    rev: f22ea0651f4355c655cc581f67813c991c74a312  # frozen: v3.22.0
     hooks:
       - id: pyupgrade
         args:
           - --py310-plus
   - repo: https://github.com/MarcoGorelli/auto-walrus
-    rev: ba0661836089a532a710f68713a3e3e53f7f0113  # frozen: 0.3.4
+    rev: 1743edbed52f3d61886b59d98a27164a8af29c0d  # frozen: 0.4.1
     hooks:
       - id: auto-walrus
         additional_dependencies:
           - tomli ; python_version < '3.11'
   - repo: https://github.com/codespell-project/codespell
-    rev: 63c8f8312b7559622c0d82815639671ae42132ac  # frozen: v2.4.1
+    rev: 57b21406f092110c18776e39b0bda50d37c945c8  # frozen: v2.4.3
     hooks:
       - id: codespell
         additional_dependencies:
           - tomli ; python_version < '3.11'
   - repo: https://github.com/commitizen-tools/commitizen
-    rev: cc981fcb065527b6de0033b0cbf0432e69781901  # frozen: v4.9.1
+    rev: 0c47f153e36705819b4d819508fa913d979c1ccc  # frozen: v4.19.3
     hooks:
       - id: commitizen
   - repo: local
@@ -77,19 +77,19 @@ repos:
         types:
           - python
   - repo: https://github.com/andreoliwa/nitpick
-    rev: 'a1373f03f5a9394c75cc03e5da1b0cb6ff615dbb'  # frozen: v0.38.0
+    rev: '3ba97e5d57882cca6ef1eccaae683753c8a26630'  # frozen: v0.38.1
     hooks:
       - id: nitpick
   - repo: "https://github.com/TotallyNotRobots/check-spdx-header"
-    rev: '676e6f28a70426914a2e286cbb53696fe2a19381'  # frozen: 0.3.0
+    rev: '7b32924b95a8a529c388fd5abf41dcca901b42bc'  # frozen: 0.3.2
     hooks:
       - id: fix-spdx-header
   - repo: https://github.com/PyCQA/autoflake
-    rev: '0544741e2b4a22b472d9d93e37d4ea9153820bb1'  # frozen: v2.3.1
+    rev: '6d9dd2716540ab776f29c7b896cd3052ef4619b2'  # frozen: v2.4.0
     hooks:
       - id: autoflake
   - repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
-    rev: '19b28a9f0a0102b30776f054bea4176e7af50dbe'  # frozen: v2.15.0
+    rev: '4380fbb73a154b5f5624794c1c78d9719ccc860f'  # frozen: v2.16.0
     hooks:
       - id: pretty-format-toml
         args:
