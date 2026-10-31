@@ -73,6 +73,7 @@ repos:
         entry: hatch run types:check
         language: system
         name: hatch types
+        require_serial: true
         types:
           - python
   - repo: https://github.com/andreoliwa/nitpick
