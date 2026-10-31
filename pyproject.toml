@@ -69,7 +69,8 @@ python = ["3.14", "3.13", "3.12", "3.11", "3.10"]
 extra-dependencies = ["basedpyright==1.40.2"]
 
 [tool.hatch.envs.types.scripts]
-check = "basedpyright --level error {args:polymatch tests}"
+check = "basedpyright {args:polymatch tests}"
+write-baseline = "basedpyright --writebaseline"
 
 [tool.hatch.envs.pre-commit]
 post-install-commands = []
@@ -223,6 +224,6 @@ in-place = true
 
 [tool.basedpyright]
 analyzeUnannotatedFunctions = true
-reportUnusedCallResult = false
-reportImplicitStringConcatenation = false
-reportImportCycles = false
+reportUnusedCallResult = "none"
+reportImplicitStringConcatenation = "none"
+reportImportCycles = "none"
