@@ -12,10 +12,9 @@ env:
   HATCH_VERSION: "1.18.2"
 
 jobs:
-  test:
+  lint:
     permissions:
       contents: read
-      id-token: write
 
     runs-on: ${{matrix.os}}
     strategy:
@@ -53,6 +52,40 @@ jobs:
       run: hatch run pre-commit:run
       env:
         SKIP: nitpick,hatch-fmt,hatch-types
+
+  test:
+    permissions:
+      contents: read
+      id-token: write
+
+    runs-on: ${{matrix.os}}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - windows-latest
+          - macos-latest
+        python-version:
+          - '3.10'
+          - '3.11'
+          - '3.12'
+          - '3.13'
+          - '3.14'
+    name: "Test on ${{matrix.os}} with Python ${{matrix.python-version}}"
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+      with:
+        python-version: "${{matrix.python-version}}"
+        cache: "pip"
+
+    - name: Install Hatch
+      uses: pypa/hatch@f647ed70d49adb885f53a27d1c7f5bdaeacf2c60 # install
+      with:
+        version: "${{ env.HATCH_VERSION }}"
 
     - name: Run tests
       run: hatch test --python ${{ matrix.python-version }} --cover --randomize --retries 2 --retry-delay 1
