@@ -39,10 +39,10 @@
                 "github.vscode-github-actions",
                 "redhat.vscode-yaml",
                 "ms-azuretools.vscode-docker",
-                "ms-python.mypy-type-checker",
                 "sunipkm.autodocstringpy",
                 "charliermarsh.ruff",
-                "pypa.hatch"
+                "pypa.hatch",
+                "detachhead.basedpyright"
             ],
             "settings": {
                 "python.defaultInterpreterPath": "~/.virtualenvs/polymatch/bin/python",

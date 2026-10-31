@@ -27,7 +27,7 @@ def test_type_mismatch() -> None:
     """Test comparing a bytes pattern against a string."""
     matcher = ExactMatcher(b"foo", CaseAction.CASEINSENSITIVE)
     with pytest.raises(PatternTextTypeMismatchError):
-        matcher.match("foo")  # type: ignore[arg-type]
+        matcher.match("foo")  # pyright: ignore[reportArgumentType]
 
 
 def test_compare() -> None:

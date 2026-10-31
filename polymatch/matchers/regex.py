@@ -44,7 +44,7 @@ class RegexMatcher(PolymorphicMatcher[AnyStr, "regex.Pattern[AnyStr]"]):
         self, pattern: "regex.Pattern[AnyStr]", text: AnyStr
     ) -> bool:
         """Match text."""
-        return pattern.match(text) is not None
+        return pattern.match(text) is not None  # pyright: ignore[reportAttributeAccessIssue]
 
     def match_text_cf(
         self, pattern: "regex.Pattern[AnyStr]", text: AnyStr

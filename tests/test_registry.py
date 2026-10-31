@@ -49,7 +49,7 @@ def test_parse_error_bad_type() -> None:
     with pytest.raises(
         TypeError, match="Unable to parse pattern string of type 'int'"
     ):
-        pattern_registry.pattern_from_string(27)  # type: ignore[type-var]
+        pattern_registry.pattern_from_string(27)  # pyright: ignore[reportArgumentType]
 
 
 def test_parse_error_no_matcher() -> None:
