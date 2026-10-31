@@ -36,14 +36,6 @@ repos:
     rev: 2dd40ba37fdd472ce996668ea415077d756e651b  # frozen: 0.15.0
     hooks:
       - id: ssort
-  - repo: https://github.com/psf/black
-    rev: af0ba72a73598c76189d6dd1b21d8532255d5942  # frozen: 25.9.0
-    hooks:
-      - id: black
-  - repo: https://github.com/pycqa/isort
-    rev: 0a09c783808cfe77bb3269250f663ff733d23302  # frozen: 7.0.0
-    hooks:
-      - id: isort
   - repo: https://github.com/pre-commit/pygrep-hooks
     rev: 3a6eb0fadf60b3cccfd80bad9dbb6fae7e47b316
     hooks:
@@ -77,12 +69,6 @@ repos:
       - id: commitizen
   - repo: local
     hooks:
-      - id: hatch-fmt
-        entry: hatch fmt
-        language: system
-        name: hatch fmt
-        types:
-          - python
       - id: hatch-types
         entry: hatch run types:check
         language: system
@@ -113,6 +99,17 @@ repos:
           - '4'
           - --inline-comment-spaces
           - '1'
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: '25bcf95026b96e2dd3c0aec3090c3d6ef6ca2e6c'  # frozen: v0.17.3
+    hooks:
+      - id: ruff-check
+        args:
+          - --fix
+        types_or:
+          - python
+          - pyi
+          - pyproject
+      - id: ruff-format
 minimum_pre_commit_version: 4.3.0
 default_install_hook_types:
   - pre-commit
