@@ -7,6 +7,7 @@
 from typing import AnyStr
 
 import regex
+from typing_extensions import override
 
 from polymatch import PolymorphicMatcher
 
@@ -14,24 +15,28 @@ from polymatch import PolymorphicMatcher
 class RegexMatcher(PolymorphicMatcher[AnyStr, "regex.Pattern[AnyStr]"]):
     """Match string against a regex pattern."""
 
+    @override
     def compile_pattern(
         self, raw_pattern: AnyStr, *, flags: int = 0
     ) -> "regex.Pattern[AnyStr]":
         """Compile pattern case-sensitive."""
         return regex.compile(raw_pattern, flags)
 
+    @override
     def compile_pattern_cs(
         self, raw_pattern: AnyStr
     ) -> "regex.Pattern[AnyStr]":
         """Compile pattern case-sensitive."""
         return self.compile_pattern(raw_pattern)
 
+    @override
     def compile_pattern_ci(
         self, raw_pattern: AnyStr
     ) -> "regex.Pattern[AnyStr]":
         """Compile pattern case-insensitive."""
         return self.compile_pattern(raw_pattern, flags=regex.IGNORECASE)
 
+    @override
     def compile_pattern_cf(
         self, raw_pattern: AnyStr
     ) -> "regex.Pattern[AnyStr]":
@@ -40,24 +45,28 @@ class RegexMatcher(PolymorphicMatcher[AnyStr, "regex.Pattern[AnyStr]"]):
             raw_pattern, flags=regex.FULLCASE | regex.IGNORECASE
         )
 
+    @override
     def match_text(
         self, pattern: "regex.Pattern[AnyStr]", text: AnyStr
     ) -> bool:
         """Match text."""
         return pattern.match(text) is not None  # pyright: ignore[reportAttributeAccessIssue]
 
+    @override
     def match_text_cf(
         self, pattern: "regex.Pattern[AnyStr]", text: AnyStr
     ) -> bool:
         """Match text case-folded."""
         return self.match_text(pattern, text)
 
+    @override
     def match_text_ci(
         self, pattern: "regex.Pattern[AnyStr]", text: AnyStr
     ) -> bool:
         """Match text case-insensitive."""
         return self.match_text(pattern, text)
 
+    @override
     def match_text_cs(
         self, pattern: "regex.Pattern[AnyStr]", text: AnyStr
     ) -> bool:
@@ -65,6 +74,7 @@ class RegexMatcher(PolymorphicMatcher[AnyStr, "regex.Pattern[AnyStr]"]):
         return self.match_text(pattern, text)
 
     @classmethod
+    @override
     def get_type(cls) -> str:
         """Pattern type."""
         return "regex"
