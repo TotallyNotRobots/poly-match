@@ -15,5 +15,6 @@
     "autoDocstringPy.docstringFormat": "google-notypes",
     "autoDocstringPy.startOnNewLine": true,
     "python-envs.defaultEnvManager": "pypa.hatch:hatch",
-    "python-envs.defaultPackageManager": "pypa.hatch:hatch"
+    "python-envs.defaultPackageManager": "pypa.hatch:hatch",
+    "basedpyright.analysis.baselineMode": "discard"
 }

@@ -12,6 +12,8 @@ from collections.abc import Callable
 from enum import Enum
 from typing import AnyStr, Generic, TypeVar, cast
 
+from typing_extensions import override
+
 import polymatch
 from polymatch.error import (
     PatternCompileError,
@@ -268,6 +270,7 @@ class PolymorphicMatcher(Generic[AnyStr, AnyPattern], metaclass=ABCMeta):
 
         return preamble.encode() + self.pattern
 
+    @override
     def __eq__(self, other: object) -> bool:
         """Compare against input text.
 
@@ -282,6 +285,7 @@ class PolymorphicMatcher(Generic[AnyStr, AnyPattern], metaclass=ABCMeta):
 
         return NotImplemented
 
+    @override
     def __ne__(self, other: object) -> bool:
         """Compare against input text.
 
@@ -296,9 +300,11 @@ class PolymorphicMatcher(Generic[AnyStr, AnyPattern], metaclass=ABCMeta):
 
         return NotImplemented
 
+    @override
     def __hash__(self) -> int:
         return hash((self.pattern, self.case_action, self.inverted))
 
+    @override
     def __getstate__(self) -> TUPLE_V2[AnyStr, AnyPattern]:
         """Generate object state for pickling.
 
@@ -342,6 +348,7 @@ class PolymorphicMatcher(Generic[AnyStr, AnyPattern], metaclass=ABCMeta):
         if version != polymatch.__version__ and self.is_compiled():
             self.compile()
 
+    @override
     def __repr__(self) -> str:
         """Represent the matcher object in an informative way, useful for debugging.
 
