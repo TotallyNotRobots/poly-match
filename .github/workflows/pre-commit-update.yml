@@ -29,7 +29,7 @@ jobs:
           version: "${{ env.HATCH_VERSION }}"
 
       - name: Update .pre-commit-config.yaml
-        run: hatch run pre-commit:pre-commit autoupdate --freeze
+        run: hatch run pre-commit:update
 
       - name: Run pre-commit
         run: hatch run pre-commit:run

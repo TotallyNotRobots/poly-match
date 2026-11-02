@@ -6,6 +6,7 @@ repos:
         args:
           - --markdown-linebreak-ext=md,markdown
       - id: end-of-file-fixer
+        exclude: '.basedpyright/baseline.json'
       - id: check-yaml
       - id: check-added-large-files
       - id: check-ast
@@ -23,9 +24,8 @@ repos:
         args:
           - --fix=lf
       - id: check-json
-        exclude: ^\.(vscode|devcontainer)/
       - id: pretty-format-json
-        exclude: ^\.(vscode|devcontainer)/
+        exclude: '.basedpyright/baseline.json'
         args:
           - --indent
           - '4'

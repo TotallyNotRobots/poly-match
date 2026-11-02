@@ -48,12 +48,14 @@ dependencies = [
     "types-regex>=2024",
     "ruamel.yaml==0.19.1",
 ]
+post-install-commands = ["hatch run pre-commit:install"]
 
 [tool.hatch.envs.default.scripts]
 setup-dev = ["hatch run pre-commit install"]
 fix-pre-commit = ["hatch run python3 -m scripts.fix_pre_commit"]
 
 [tool.hatch.envs.hatch-test]
+post-install-commands = []
 default-args = ["tests", "polymatch"]
 extra-args = ["-vv", "--junitxml=junit.xml"]
 
@@ -67,6 +69,7 @@ cov-report = ["coverage report --show-missing --skip-covered", "coverage xml"]
 python = ["3.15", "3.14", "3.13", "3.12", "3.11", "3.10"]
 
 [tool.hatch.envs.types]
+post-install-commands = []
 extra-dependencies = ["basedpyright==1.40.2"]
 
 [tool.hatch.envs.types.scripts]
@@ -75,10 +78,12 @@ write-baseline = "basedpyright --writebaseline"
 
 [tool.hatch.envs.pre-commit]
 post-install-commands = []
+extra-dependencies = ["pre-commit==4.7.0"]
 
 [tool.hatch.envs.pre-commit.scripts]
 run = ["pre-commit run {args:--all}"]
 install = ["pre-commit install {args:-f}"]
+update = ["pre-commit autoupdate --freeze"]
 
 [tool.ruff]
 line-length = 80
@@ -214,7 +219,10 @@ source_pkgs = ["polymatch", "tests"]
 omit = ["polymatch/_version.py"]
 
 [tool.nitpick]
-style = ["gh://TotallyNotRobots/nitpick/lib-style-3.10.toml"]
+style = [
+    "gh://TotallyNotRobots/nitpick/lib-style-3.10.toml",
+    "gh://TotallyNotRobots/nitpick/styles/hatch/common.toml",
+]
 
 [tool.check-spdx-header]
 headers = ["2018-present linuxdaemon <linuxdaemon.irc@gmail.com>"]
@@ -228,3 +236,4 @@ analyzeUnannotatedFunctions = true
 reportUnusedCallResult = "none"
 reportImplicitStringConcatenation = "none"
 reportImportCycles = "none"
+pythonVersion = "3.10"
