@@ -186,3 +186,4 @@ coverage.*
 
 !scripts/
 .cache/nitpick/
+junit.xml

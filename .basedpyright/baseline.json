@@ -69,14 +69,6 @@
                 "code": "reportImplicitOverride",
                 "range": {
                     "startColumn": 8,
-                    "endColumn": 20,
-                    "lineCount": 1
-                }
-            },
-            {
-                "code": "reportImplicitOverride",
-                "range": {
-                    "startColumn": 8,
                     "endColumn": 16,
                     "lineCount": 1
                 }
