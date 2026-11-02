@@ -228,3 +228,4 @@ analyzeUnannotatedFunctions = true
 reportUnusedCallResult = "none"
 reportImplicitStringConcatenation = "none"
 reportImportCycles = "none"
+pythonVersion = "3.10"
