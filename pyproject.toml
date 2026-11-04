@@ -158,42 +158,12 @@ transform-joins = true
 transform-concats = true
 line-length = 120
 
-[tool.mypy]
-namespace_packages = true
-python_version = "3.11"
-warn_unused_configs = true
-strict = true
-strict_optional = true
-check_untyped_defs = true
-show_error_codes = true
-warn_unused_ignores = true
-no_implicit_reexport = true
-warn_redundant_casts = true
-strict_equality = true
-disallow_any_generics = true
-disallow_untyped_calls = true
-disallow_untyped_defs = true
-disallow_untyped_decorators = true
-extra_checks = true
-warn_unreachable = true
-warn_return_any = true
-warn_no_return = true
-enable_error_code = [
-    "redundant-self",
-    "redundant-expr",
-    "possibly-undefined",
-    "truthy-bool",
-    "truthy-iterable",
-    "ignore-without-code",
-    "deprecated",
-]
-ignore_missing_imports = true
-
-[tool.pytest.ini_options]
-minversion = "8.0"
+[tool.pytest]
+minversion = "9.0"
 addopts = ["--doctest-modules"]
 testpaths = ["polymatch", "tests"]
 filterwarnings = ["error"]
+asyncio_default_fixture_loop_scope = "function"
 
 [tool.coverage.paths]
 polymatch = [
