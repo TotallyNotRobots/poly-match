@@ -163,7 +163,6 @@ minversion = "9.0"
 addopts = ["--doctest-modules"]
 testpaths = ["polymatch", "tests"]
 filterwarnings = ["error"]
-asyncio_default_fixture_loop_scope = "function"
 
 [tool.coverage.paths]
 polymatch = [
